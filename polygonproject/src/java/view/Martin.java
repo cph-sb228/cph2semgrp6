@@ -10,5 +10,7 @@ package view;
  * @author Martin
  */
 public class Martin {
+ 
+    String hej = "hej";
     
 }
