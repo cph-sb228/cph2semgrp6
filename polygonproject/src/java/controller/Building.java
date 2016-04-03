@@ -7,7 +7,7 @@ package controller;
 
 /**
  *
- * @author terfy
+ * @author terfy eller hvemmdfmdfn
  */
 public class Building {
     private String owner;
