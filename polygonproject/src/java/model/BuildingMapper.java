@@ -18,47 +18,37 @@ import java.util.List;
 public class BuildingMapper {
     
 
-    public boolean insertBuilding(Building building) throws ClassNotFoundException {
+    public static boolean insertBuilding(Building building) throws ClassNotFoundException {
 
         try {
-            String sql = "INSERT INTO 'building' ('owner','address') VALUES ('?','?');";
+            String sql = "INSERT INTO `buildings` (`owner`,`address`) VALUES (?,?);";
             PreparedStatement ps = DBAccess.prepare(sql);
             ps.setString(1, building.getOwner());
             ps.setString(2, building.getAddress());
-            ps.executeUpdate();
+            ps.execute();
         } catch (SQLException ex) {
-            System.out.println("Exception Caught in instertBuilding");
+            System.out.println("Exception Caught in instertBuilding" + ex.getMessage());
             return false;
         }
         return true;
     }
 
     public static List<Building> getBuildings() throws ClassNotFoundException {
-            System.out.println("-1");
 
         List<Building> buildings = new ArrayList();
-                    System.out.println("0");
 
         try {
 
             String sql = "SELECT * FROM `buildings`;";
-            System.out.println("0.5");
             DBAccess DB = DBAccess.getInstance();
-            System.out.println("1");
             Statement st = DB.getCon().createStatement();
-            System.out.println("2");
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
                 String owner = rs.getString("owner");
-            System.out.println("3");
                 String address = rs.getString("address");
-            System.out.println("4");
                 Building building = new Building(owner, address);
-            System.out.println("5");
                 buildings.add(building);
-            System.out.println("6");
             }
-            System.out.println("7");
 
             return buildings;
         } catch (SQLException ex) {

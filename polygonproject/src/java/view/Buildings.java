@@ -25,19 +25,35 @@ import model.BuildingMapper;
 
 public class Buildings extends HttpServlet{
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
-        
-        
+    private void addBuilding(HttpServletRequest req) {
+        String owner = (String)req.getParameter("owner");
+        String address = (String)req.getParameter("address");
+        Building building = new Building(owner, address);
+        try {
+            System.out.println("try");
+            BuildingMapper.insertBuilding(building);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Buildings.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void prepareBuildingList(HttpServletRequest req){
         List<Building> buildings = null;
         try {
             buildings = BuildingMapper.getBuildings();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Buildings.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
         req.getSession().setAttribute("buildings", buildings);
+    }
+    
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        
+        
+        
+        addBuilding(req);
+        prepareBuildingList(req);
         resp.sendRedirect("buildinglist.jsp");
     }
 
@@ -45,5 +61,5 @@ public class Buildings extends HttpServlet{
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
     }
-    
+
 }
