@@ -5,9 +5,8 @@
  */
 package controller;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+
 
 
 /**
@@ -23,9 +22,15 @@ public class DBAccess {
     private static String id = "polyadmin";			
     private static String pw = "1234";
     
-     public static DBAccess getInstance() {
+    private DBAccess() throws SQLException, ClassNotFoundException{
+        Class.forName(driver);
+        this.con = (Connection) DriverManager.getConnection(URL,id,pw);
+    }
+    
+    public static DBAccess getInstance() throws SQLException, ClassNotFoundException {
         if (instance == null) {
             instance = new DBAccess();
+            
         }
         return instance;
     }
@@ -35,11 +40,11 @@ public class DBAccess {
     }
      
 
-    public static PreparedStatement prepare(String SQLString) {
+    public static PreparedStatement prepare(String SQLString) throws ClassNotFoundException {
         try {
-            stmt = getInstance().con.prepareStatement(SQLString);
+            stmt = (PreparedStatement) getInstance().getCon().prepareStatement(SQLString);
         } catch (SQLException e) {
-            System.out.println("Error in DB.prepare()" + e);
+            System.out.println("Error in DB.prepare()" + e.getMessage());
         }
         return stmt;
     }
