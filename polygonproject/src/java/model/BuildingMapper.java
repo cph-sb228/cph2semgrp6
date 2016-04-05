@@ -16,7 +16,6 @@ import java.util.List;
  * @author terfy
  */
 public class BuildingMapper {
-    
 
     public static boolean insertBuilding(Building building) throws ClassNotFoundException {
 
@@ -44,9 +43,11 @@ public class BuildingMapper {
             Statement st = DB.getCon().createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
+                int id = rs.getInt("id");
                 String owner = rs.getString("owner");
                 String address = rs.getString("address");
                 Building building = new Building(owner, address);
+                building.setId(rs.getInt("id"));
                 buildings.add(building);
             }
 
@@ -55,6 +56,23 @@ public class BuildingMapper {
             System.out.println("DU BIST EIN TABER!!" + ex.getMessage());
             return null;
         }
+    }
 
+    public static boolean removeBuilding(int id) throws ClassNotFoundException {
+
+        try {
+
+            String sql = "DELETE FROM buildings WHERE id = ?;";
+            PreparedStatement ps = DBAccess.prepare(sql);
+            ps.setInt(1,id);
+            
+            ps.execute();
+
+        } catch (SQLException ex) {
+            System.out.println("Exception in removeBuilding");
+            return false;
+        }
+
+        return true;
     }
 }

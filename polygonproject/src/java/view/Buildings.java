@@ -22,22 +22,26 @@ import model.BuildingMapper;
  *
  * @author terfy
  */
+public class Buildings extends HttpServlet {
 
-public class Buildings extends HttpServlet{
+    private void removeBuilding(HttpServletRequest req) throws ClassNotFoundException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        BuildingMapper.removeBuilding(id);
+    }
 
     private void addBuilding(HttpServletRequest req) {
-        String owner = (String)req.getParameter("owner");
-        String address = (String)req.getParameter("address");
+        //int id = Integer.parseInt(req.getParameter("id"));
+        String owner = (String) req.getParameter("owner");
+        String address = (String) req.getParameter("address");
         Building building = new Building(owner, address);
         try {
-            System.out.println("try");
             BuildingMapper.insertBuilding(building);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Buildings.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void prepareBuildingList(HttpServletRequest req){
+
+    private void prepareBuildingList(HttpServletRequest req) {
         List<Building> buildings = null;
         try {
             buildings = BuildingMapper.getBuildings();
@@ -46,20 +50,36 @@ public class Buildings extends HttpServlet{
         }
         req.getSession().setAttribute("buildings", buildings);
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
-        
-        
-        addBuilding(req);
-        prepareBuildingList(req);
-        resp.sendRedirect("buildinglist.jsp");
+        String do_this = req.getParameter("do_this");
+
+        switch (do_this) {
+            case "delete":
+                if (req.getParameter("delete") != null && req.getParameter("delete").equals("Delete")) {
+                    System.out.println("DELETE knap trykket");
+                    try {
+                        removeBuilding(req);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(Buildings.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                resp.sendRedirect("buildinglist.jsp");
+                break;
+
+            case "add":
+                addBuilding(req);
+                prepareBuildingList(req);
+                resp.sendRedirect("buildinglist.jsp");
+                break;
+        }
+
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
+
     }
 
 }

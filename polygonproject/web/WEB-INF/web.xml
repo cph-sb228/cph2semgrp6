@@ -13,4 +13,12 @@
         <servlet-name>AddBuilding</servlet-name>
         <url-pattern>/addbuilding</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>DeleteBuilding</servlet-name>
+        <servlet-class>view.Buildings</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteBuilding</servlet-name>
+        <url-pattern>/deletebuilding</url-pattern>
+    </servlet-mapping>
 </web-app>

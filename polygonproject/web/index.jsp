@@ -18,6 +18,7 @@
             <input type="text" name="owner" /></br>
             <p>Building address</p>
             <input type="text" name="address" /></br>
+            <input type="hidden" name="do_this" value="add" />
             <input type="submit" name="submit" value="Add building"/>
         </form>
     </body>

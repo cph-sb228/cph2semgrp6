@@ -10,8 +10,17 @@ package controller;
  * @author terfy eller hvemmdfmdfn
  */
 public class Building {
+    private int id;
     private String owner;
     private String address;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getOwner() {
         return owner;
@@ -32,6 +41,6 @@ public class Building {
     public Building(String owner, String address) {
         this.owner = owner;
         this.address = address;
-    }
+        }
     
 }

@@ -22,12 +22,21 @@
             <th>Company</th><th>Address</th>
         <%
             for (int i = 0; i < buildings.size(); i++) {
-                out.print("<tr>");
+                out.print("<tr>");                
                 out.print("<td>");
                 out.print(buildings.get(i).getOwner());
                 out.print("</td>");
                 out.print("<td>");
                 out.print(buildings.get(i).getAddress());
+                out.print("</td>");
+                out.print("<td>");
+                %>
+            <form action="deletebuilding" method="post">   
+                <input type="submit" name="delete" value="Delete"/>
+                <input type ="hidden" name="id" value="<%= buildings.get(i).getId() %>"/>
+                <input type="hidden" name="do_this" value="delete" />
+                </form>
+                <%
                 out.print("</td>");
                 out.print("</tr>");
                               
