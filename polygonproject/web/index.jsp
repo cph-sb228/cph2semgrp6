@@ -18,6 +18,7 @@
         <ul>
             <li><a href="usersadd.jsp">users</a></li>
             <li><a href="buildingadd.jsp">buildings</a></li>
+            <li><a href="reportadd.jsp">reports</a></li>
         </ul>
     </body>
 </html>
