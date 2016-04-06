@@ -5,8 +5,9 @@
  */
 package view;
 
-import controller.Building;
+import controller.User;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,48 +16,50 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.UsersMapper;
 
-import model.BuildingMapper;
 
 /**
  *
  * @author terfy
  */
-public class Buildings extends HttpServlet {
 
-    private void removeBuilding(HttpServletRequest req) {
+public class Users extends HttpServlet {
+
+        private void removeUser(HttpServletRequest req) {
         int id = Integer.parseInt(req.getParameter("id"));
         try {
-            BuildingMapper.removeBuilding(id);
+            UsersMapper.removeUser(id);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Buildings.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private boolean addBuilding(HttpServletRequest req) {
+    private boolean addUser(HttpServletRequest req) {
         //int id = Integer.parseInt(req.getParameter("id"));
-        String owner = (String) req.getParameter("owner");
-        String address = (String) req.getParameter("address");
-        if (owner.length() > 0 && address.length() > 0) {
-            Building building = new Building(owner, address);
+        String username = (String) req.getParameter("username");
+        String password = (String) req.getParameter("password");
+        String email = (String) req.getParameter("email");
+        if (username.length() > 0 && password.length() > 0) {
+            User user = new User(username, password, email);
             try {
-                BuildingMapper.insertBuilding(building);
+                UsersMapper.insertUser(user);
                 return true;
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Buildings.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return false;
     }
 
-    private void prepareBuildingList(HttpServletRequest req) {
-        List<Building> buildings = null;
+    private void prepareUserList(HttpServletRequest req) {
+        List<User> users = null;
         try {
-            buildings = BuildingMapper.getBuildings();
+            users = UsersMapper.getUser();
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Buildings.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
         }
-        req.getSession().setAttribute("buildings", buildings);
+        req.getSession().setAttribute("users", users);
     }
 
     @Override
@@ -65,16 +68,16 @@ public class Buildings extends HttpServlet {
 
         switch (do_this) {
             case "delete":
-                removeBuilding(req);
-                prepareBuildingList(req);
-                resp.sendRedirect("buildinglist.jsp");
+                removeUser(req);
+                prepareUserList(req);
+                resp.sendRedirect("userslist.jsp");
                 break;
 
             case "add":
-                if(addBuilding(req)){
-                prepareBuildingList(req);
-                resp.sendRedirect("buildinglist.jsp");
-                } else resp.sendRedirect("buildingadd.jsp");
+                if(addUser(req)){
+                prepareUserList(req);
+                resp.sendRedirect("userslist.jsp");
+                } else resp.sendRedirect("usersadd.jsp");
                 break;
         }
 
@@ -84,5 +87,8 @@ public class Buildings extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
     }
+
+    
+    
 
 }
