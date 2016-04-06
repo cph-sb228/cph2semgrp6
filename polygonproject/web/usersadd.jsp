@@ -13,14 +13,17 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
-        <form action="addbuilding" method="POST">
+        <h1>User add</h1>
+        <form action="adduser" method="POST">
             <p>User name</p>
-            <input type="text" name="owner" /></br>
-            <p>Building address</p>
-            <input type="text" name="address" /></br>
+            <input type="text" name="username" /></br>
+            <p>Password</p>
+            <input type="password" name="password" /></br>
+            <input type="password" name="password2" />bekræft kode</br>
+            <p>Email adresse</p>
+            <input type="text" name="email" /></br>
             <input type="hidden" name="do_this" value="add" />
-            <input type="submit" name="submit" value="Add building"/>
+            <input type="submit" name="submit" value="Add user"/>
         </form>
     </body>
 </html>

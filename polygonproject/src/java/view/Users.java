@@ -39,8 +39,9 @@ public class Users extends HttpServlet {
         //int id = Integer.parseInt(req.getParameter("id"));
         String username = (String) req.getParameter("username");
         String password = (String) req.getParameter("password");
+        String password2 = (String) req.getParameter("password2");
         String email = (String) req.getParameter("email");
-        if (username.length() > 0 && password.length() > 0) {
+        if (username.length() > 0 && password.length() > 0 && password.equals(password2)) {
             User user = new User(username, password, email);
             try {
                 UsersMapper.insertUser(user);

@@ -16,7 +16,7 @@
             <title>User liste</title>
     </head>
     <body>
-        <h1>Liste over bygninger</h1>
+        <h1>Liste over brugere</h1>
         <table>
             <th>Company</th><th>Address</th>
         <%

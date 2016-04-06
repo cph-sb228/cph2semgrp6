@@ -46,9 +46,10 @@ public class UsersMapper {
             DBAccess DB = DBAccess.getInstance();
             Statement st = DB.getCon().createStatement();
             ResultSet rs = st.executeQuery(sql);
+            
             while (rs.next()) {
                 int id = rs.getInt("id");
-                String username = rs.getString("user");
+                String username = rs.getString("username");
                 String password = rs.getString("password");
                 String email = rs.getString("email");
                 User user = new User(username, password, email);
