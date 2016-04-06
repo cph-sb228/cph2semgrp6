@@ -37,8 +37,14 @@ public class Buildings extends HttpServlet {
         //int id = Integer.parseInt(req.getParameter("id"));
         String owner = (String) req.getParameter("owner");
         String address = (String) req.getParameter("address");
+        int housenr = Integer.parseInt (req.getParameter("housenr"));
+        int zipcode = Integer.parseInt (req.getParameter("zipcode"));
+        String city = (String) req.getParameter("city");
+        int floor = Integer.parseInt (req.getParameter("floor"));
+        int km2 = Integer.parseInt (req.getParameter("km2"));
+        String conditions = (String) req.getParameter("conditions");
         if (owner.length() > 0 && address.length() > 0) {
-            Building building = new Building(owner, address);
+            Building building = new Building(owner, address, housenr, zipcode, city, floor, km2, conditions);
             try {
                 BuildingMapper.insertBuilding(building);
                 return true;
