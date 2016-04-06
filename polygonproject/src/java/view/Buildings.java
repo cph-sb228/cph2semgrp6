@@ -34,17 +34,25 @@ public class Buildings extends HttpServlet {
     }
 
     private boolean addBuilding(HttpServletRequest req) {
-        //int id = Integer.parseInt(req.getParameter("id"));
         String owner = (String) req.getParameter("owner");
         String address = (String) req.getParameter("address");
-        int housenr = Integer.parseInt (req.getParameter("housenr"));
-        int zipcode = Integer.parseInt (req.getParameter("zipcode"));
+        String housenr = (String) req.getParameter("housenr");
+        String zipcode = (String) req.getParameter("zipcode");
         String city = (String) req.getParameter("city");
-        int floor = Integer.parseInt (req.getParameter("floor"));
-        int km2 = Integer.parseInt (req.getParameter("km2"));
+        String floor = (String) req.getParameter("floor");
+        String km2 = (String) req.getParameter("km2");
         String conditions = (String) req.getParameter("conditions");
-        if (owner.length() > 0 && address.length() > 0) {
-            Building building = new Building(owner, address, housenr, zipcode, city, floor, km2, conditions);
+        if (       owner.length() > 0
+                && address.length() > 0
+                && housenr.length() > 0
+                && zipcode.length() > 0
+                && city.length() > 0
+                && floor.length() > 0
+                && km2.length() > 0
+                && conditions.length() > 0
+            ) {
+            if(!housenr.matches("[0-9]+") || !zipcode.matches("[0-9]+") || !floor.matches("[0-9]+") || !km2.matches("[0-9]+")) return false;
+            Building building = new Building(owner, address, Integer.valueOf(housenr), Integer.valueOf(zipcode), city, Integer.valueOf(floor), Integer.valueOf(km2), conditions);
             try {
                 BuildingMapper.insertBuilding(building);
                 return true;

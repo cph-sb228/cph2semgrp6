@@ -49,7 +49,6 @@ public class BuildingMapper {
             Statement st = DB.getCon().createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-                int id = rs.getInt("id");
                 String owner = rs.getString("owner");
                 String address = rs.getString("address");
                 int housenr = rs.getInt("housenr");

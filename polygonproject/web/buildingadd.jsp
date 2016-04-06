@@ -22,7 +22,7 @@
             <p>Building nr.</p>
             <input type="text" name="housenr" /></br>
             <p>Zipcode</p>
-            <input type="text" name="zipcode" /></br>
+            <input type="text<%--number, men nej tak til pilene--%>" name="zipcode" /></br>
             <p>City</p>
             <input type="text" name="city" /></br>
             <p>Floor nr.</p>

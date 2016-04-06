@@ -32,7 +32,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>DeleteUser</servlet-name>
-        <servlet-class>view.users</servlet-class>
+        <servlet-class>view.Users</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DeleteUser</servlet-name>
