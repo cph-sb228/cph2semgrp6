@@ -19,7 +19,7 @@
     <body>
         <h1>Liste over bygninger</h1>
         <table>
-            <th>Company</th><th>Address</th>
+            <th>Company </th><th>Street </th><th>House nr.  </th><th>Zipcode    </th><th>City   </th><th>Floor  </th><th>Square meters  </th><th>Condition</th>
         <%
             for (int i = 0; i < buildings.size(); i++) {
                 out.print("<tr>");                
@@ -28,6 +28,24 @@
                 out.print("</td>");
                 out.print("<td>");
                 out.print(buildings.get(i).getAddress());
+                out.print("</td>");
+                out.print("<td>");
+                out.print(buildings.get(i).getHousenr());
+                out.print("</td>");
+                out.print("<td>");
+                out.print(buildings.get(i).getZipcode());
+                out.print("</td>");
+                out.print("<td>");
+                out.print(buildings.get(i).getCity());
+                out.print("</td>");
+                out.print("<td>");
+                out.print(buildings.get(i).getFloor());
+                out.print("</td>");
+                out.print("<td>");
+                out.print(buildings.get(i).getKm2());
+                out.print("</td>");
+                out.print("<td>");
+                out.print(buildings.get(i).getConditions());
                 out.print("</td>");
                 out.print("<td>");
                 %>

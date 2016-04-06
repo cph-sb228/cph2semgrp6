@@ -20,10 +20,16 @@ public class BuildingMapper {
     public static boolean insertBuilding(Building building) throws ClassNotFoundException {
 
         try {
-            String sql = "INSERT INTO `buildings` (`owner`,`address`) VALUES (?,?);";
+            String sql = "INSERT INTO `buildings` (`owner`,`address`,`housenr`,`zipcode`,`city`,`floor`,`km2`,`conditions`) VALUES (?,?,?,?,?,?,?,?);";
             PreparedStatement ps = DBAccess.prepare(sql);
             ps.setString(1, building.getOwner());
             ps.setString(2, building.getAddress());
+            ps.setInt(3, building.getHousenr());
+            ps.setInt(4, building.getZipcode());
+            ps.setString(5, building.getCity());
+            ps.setInt(6, building.getFloor());
+            ps.setInt(7, building.getKm2());
+            ps.setString(8, building.getConditions());
             ps.execute();
         } catch (SQLException ex) {
             System.out.println("Exception Caught in instertBuilding" + ex.getMessage());
@@ -46,7 +52,13 @@ public class BuildingMapper {
                 int id = rs.getInt("id");
                 String owner = rs.getString("owner");
                 String address = rs.getString("address");
-                Building building = new Building(owner, address);
+                int housenr = rs.getInt("housenr");
+                int zipcode = rs.getInt("zipcode");
+                String city = rs.getString("city");
+                int floor = rs.getInt("floor");
+                int km2 = rs.getInt("km2");
+                String conditions = rs.getString("conditions");
+                Building building = new Building(owner, address, housenr, zipcode, city, floor, km2, conditions);
                 building.setId(rs.getInt("id"));
                 buildings.add(building);
             }
