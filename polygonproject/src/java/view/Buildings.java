@@ -24,21 +24,30 @@ import model.BuildingMapper;
  */
 public class Buildings extends HttpServlet {
 
-    private void removeBuilding(HttpServletRequest req) throws ClassNotFoundException {
+    private void removeBuilding(HttpServletRequest req) {
         int id = Integer.parseInt(req.getParameter("id"));
-        BuildingMapper.removeBuilding(id);
-    }
-
-    private void addBuilding(HttpServletRequest req) {
-        //int id = Integer.parseInt(req.getParameter("id"));
-        String owner = (String) req.getParameter("owner");
-        String address = (String) req.getParameter("address");
-        Building building = new Building(owner, address);
         try {
-            BuildingMapper.insertBuilding(building);
+            BuildingMapper.removeBuilding(id);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Buildings.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private boolean addBuilding(HttpServletRequest req) {
+        //int id = Integer.parseInt(req.getParameter("id"));
+        String a,b = "";
+        String owner = (String) req.getParameter("owner");
+        String address = (String) req.getParameter("address");
+        if (owner.length() > 0 && address.length() > 0) {
+            Building building = new Building(owner, address);
+            try {
+                BuildingMapper.insertBuilding(building);
+                return true;
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Buildings.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return false;
     }
 
     private void prepareBuildingList(HttpServletRequest req) {
@@ -57,21 +66,16 @@ public class Buildings extends HttpServlet {
 
         switch (do_this) {
             case "delete":
-                if (req.getParameter("delete") != null && req.getParameter("delete").equals("Delete")) {
-                    System.out.println("DELETE knap trykket");
-                    try {
-                        removeBuilding(req);
-                    } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(Buildings.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
+                removeBuilding(req);
+                prepareBuildingList(req);
                 resp.sendRedirect("buildinglist.jsp");
                 break;
 
             case "add":
-                addBuilding(req);
+                if(addBuilding(req)){
                 prepareBuildingList(req);
                 resp.sendRedirect("buildinglist.jsp");
+                } else resp.sendRedirect("index.jsp");
                 break;
         }
 
