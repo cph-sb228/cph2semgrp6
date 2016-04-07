@@ -17,8 +17,9 @@
     </head>
     <body>
         <h1>Liste over brugere</h1>
+        <a href="usersadd.jsp">Add user</a>
         <table>
-            <th>Company</th><th>Address</th>
+            <th>Username</th><th>Password</th><th>Email</th>
         <%
             for (int i = 0; i < users.size(); i++) {
                 out.print("<tr>");                

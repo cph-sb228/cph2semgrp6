@@ -18,6 +18,7 @@
     </head>
     <body>
         <h1>Liste over bygninger</h1>
+        <a href="buildingadd.jsp">Add building</a>
         <table>
             <th>Company </th><th>Street </th><th>House nr.  </th><th>Zipcode    </th><th>City   </th><th>Floor  </th><th>Square meters  </th><th>Condition</th>
         <%

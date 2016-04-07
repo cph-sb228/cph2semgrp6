@@ -10,15 +10,23 @@ package controller;
  * @author terfy
  */
 public class Report {
+    
     private int id;
-    private String filedir;
     private int buildingID;
-    private String buildingcondition;
+    private String itemname;
+    private String itemproblem;
+    private String floor;
+    private String roomnumber;
+    private String importancy;
+    private String comments;
 
-    public Report(String filedir, int buildingID, String buildingcondition) {
-        this.filedir = filedir;
-        this.buildingID = buildingID;
-        this.buildingcondition = buildingcondition;
+    public Report(String itemname, String itemproblem, String floor, String roomnumber, String importancy, String comments) {
+        this.itemname = itemname;
+        this.itemproblem = itemproblem;
+        this.floor = floor;
+        this.roomnumber = roomnumber;
+        this.importancy = importancy;
+        this.comments = comments;
     }
 
     public int getId() {
@@ -29,14 +37,6 @@ public class Report {
         this.id = id;
     }
 
-    public String getFiledir() {
-        return filedir;
-    }
-
-    public void setFiledir(String filedir) {
-        this.filedir = filedir;
-    }
-
     public int getBuildingID() {
         return buildingID;
     }
@@ -45,13 +45,54 @@ public class Report {
         this.buildingID = buildingID;
     }
 
-    public String getBuildingcondition() {
-        return buildingcondition;
+    public String getItemname() {
+        return itemname;
     }
 
-    public void setBuildingcondition(String buildingcondition) {
-        this.buildingcondition = buildingcondition;
+    public void setItemname(String itemname) {
+        this.itemname = itemname;
     }
 
+    public String getItemproblem() {
+        return itemproblem;
+    }
+
+    public void setItemproblem(String itemproblem) {
+        this.itemproblem = itemproblem;
+    }
+
+    public String getFloor() {
+        return floor;
+    }
+
+    public void setFloor(String floor) {
+        this.floor = floor;
+    }
+
+    public String getRoomnumber() {
+        return roomnumber;
+    }
+
+    public void setRoomnumber(String roomnumber) {
+        this.roomnumber = roomnumber;
+    }
+
+    public String getImportancy() {
+        return importancy;
+    }
+
+    public void setImportancy(String importancy) {
+        this.importancy = importancy;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+    
+    
 
 }

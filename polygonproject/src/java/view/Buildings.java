@@ -42,16 +42,17 @@ public class Buildings extends HttpServlet {
         String floor = (String) req.getParameter("floor");
         String km2 = (String) req.getParameter("km2");
         String conditions = (String) req.getParameter("conditions");
-        if (       owner.length() > 0
+        if (owner.length() > 0
                 && address.length() > 0
                 && housenr.length() > 0
                 && zipcode.length() > 0
                 && city.length() > 0
                 && floor.length() > 0
                 && km2.length() > 0
-                && conditions.length() > 0
-            ) {
-            if(!housenr.matches("[0-9]+") || !zipcode.matches("[0-9]+") || !floor.matches("[0-9]+") || !km2.matches("[0-9]+")) return false;
+                && conditions.length() > 0) {
+            if (!housenr.matches("[0-9]+") || !zipcode.matches("[0-9]+") || !floor.matches("[0-9]+") || !km2.matches("[0-9]+")) {
+                return false;
+            }
             Building building = new Building(owner, address, Integer.valueOf(housenr), Integer.valueOf(zipcode), city, Integer.valueOf(floor), Integer.valueOf(km2), conditions);
             try {
                 BuildingMapper.insertBuilding(building);
@@ -85,10 +86,12 @@ public class Buildings extends HttpServlet {
                 break;
 
             case "add":
-                if(addBuilding(req)){
-                prepareBuildingList(req);
-                resp.sendRedirect("buildinglist.jsp");
-                } else resp.sendRedirect("buildingadd.jsp");
+                if (addBuilding(req)) {
+                    prepareBuildingList(req);
+                    resp.sendRedirect("buildinglist.jsp");
+                } else {
+                    resp.sendRedirect("buildingadd.jsp");
+                }
                 break;
         }
 
@@ -96,7 +99,8 @@ public class Buildings extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        prepareBuildingList(req);
+        resp.sendRedirect("buildinglist.jsp");
     }
 
 }

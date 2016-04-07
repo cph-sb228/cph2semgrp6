@@ -20,20 +20,32 @@ public class ReportMapper {
     public static boolean insertReport(Report report) throws ClassNotFoundException {
 
         try {
-            String sql = "INSERT INTO `reports` (`filedir`,`buildingID`,`buildingcondition`) VALUES (?,?,?);";
+            String sql = "INSERT INTO `reports` ("
+                    + "`buildingID`,"
+                    + "`itemname`,"
+                    + "`itemproblem`,"
+                    + "`floor`,"
+                    + "`roomnumber`,"
+                    + "`importancy`,"
+                    + "`comments`"
+                    + ") VALUES (?,?,?,?,?,?,?);";
             PreparedStatement ps = DBAccess.prepare(sql);
-            ps.setString(1, report.getFiledir());
-            ps.setInt(2, report.getBuildingID());
-            ps.setString(3, report.getBuildingcondition());
+            ps.setInt(1, report.getBuildingID());
+            ps.setString(2, report.getItemname());
+            ps.setString(3, report.getItemproblem());
+            ps.setString(4, report.getFloor());
+            ps.setString(5, report.getRoomnumber());
+            ps.setString(6, report.getImportancy());
+            ps.setString(7, report.getComments());
             ps.execute();
         } catch (SQLException ex) {
-            System.out.println("Exception Caught in instertBuilding" + ex.getMessage());
+            System.out.println("Exception Caught in instertReport" + ex.getMessage());
             return false;
         }
         return true;
     }
 
-    public static List<Report> getBuildings() throws ClassNotFoundException {
+    public static List<Report> getReports() throws ClassNotFoundException {
 
         List<Report> reports = new ArrayList();
 
@@ -44,10 +56,15 @@ public class ReportMapper {
             Statement st = DB.getCon().createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-                String filedir = rs.getString("filedir");
                 int buildingID = rs.getInt("buildingID");
-                String buildingcondition = rs.getString("buildingcondition");
-                Report report = new Report(filedir, buildingID, buildingcondition);
+                String itemname = rs.getString("itemname");
+                String itemproblem = rs.getString("itemproblem");
+                String floor = rs.getString("floor");
+                String roomnumber = rs.getString("roomnumber");
+                String importancy = rs.getString("importancy");
+                String comments = rs.getString("comments");
+                Report report = new Report(itemname, itemproblem, floor, roomnumber, importancy, comments);
+                report.setBuildingID(buildingID);
                 report.setId(rs.getInt("id"));
                 reports.add(report);
             }

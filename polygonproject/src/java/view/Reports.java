@@ -6,6 +6,7 @@
 package view;
 
 import controller.Building;
+import controller.Report;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
@@ -21,7 +22,7 @@ import model.ReportMapper;
  *
  * @author terfy
  */
-public class Reports extends HttpServlet{
+public class Reports extends HttpServlet {
 
     private void removeReport(HttpServletRequest req) {
         int id = Integer.parseInt(req.getParameter("id"));
@@ -33,35 +34,41 @@ public class Reports extends HttpServlet{
     }
 
     private boolean addReport(HttpServletRequest req) {
-        String owner = (String) req.getParameter("owner");
-        String address = (String) req.getParameter("address");
-        String housenr = (String) req.getParameter("housenr");
-        String zipcode = (String) req.getParameter("zipcode");
-        String city = (String) req.getParameter("city");
+        String buildingID = req.getParameter("buildingID");
+        String itemname = req.getParameter("itemname");
+        String itemproblem = (String) req.getParameter("itemproblem");
         String floor = (String) req.getParameter("floor");
-        String km2 = (String) req.getParameter("km2");
-        String conditions = (String) req.getParameter("conditions");
-        if (       owner.length() > 0
-                && address.length() > 0
-                && housenr.length() > 0
-                && zipcode.length() > 0
-                && city.length() > 0
+        String roomnumber = (String) req.getParameter("roomnumber");
+        String importancy = (String) req.getParameter("importancy");
+        String comments = (String) req.getParameter("comments");
+        if (itemname.length() > 0
+                && itemproblem.length() > 0
                 && floor.length() > 0
-                && km2.length() > 0
-                && conditions.length() > 0
-            ) {
-            if(!housenr.matches("[0-9]+") || !zipcode.matches("[0-9]+") || !floor.matches("[0-9]+") || !km2.matches("[0-9]+")) return false;
-            Building building = new Building(owner, address, Integer.valueOf(housenr), Integer.valueOf(zipcode), city, Integer.valueOf(floor), Integer.valueOf(km2), conditions);
+                && importancy.length() > 0
+                ) {
+            Report report = new Report(itemname, itemproblem, floor, roomnumber, importancy, comments);
+            report.setBuildingID(Integer.parseInt(buildingID));
             try {
-                BuildingMapper.insertBuilding(building);
+                ReportMapper.insertReport(report);
                 return true;
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Buildings.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return false;
     }
 
+    private void prepareReportList(HttpServletRequest req) {
+        List<Report> reports = null;
+        try {
+            reports = ReportMapper.getReports();
+        } catch (ClassNotFoundException ex) {
+            System.out.println("byumssdflksdlkfsdkl sdfkllksdf fucking.. hell NO");
+            Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        req.getSession().setAttribute("reports", reports);
+    }
+    
     private void prepareBuildingList(HttpServletRequest req) {
         List<Building> buildings = null;
         try {
@@ -74,31 +81,34 @@ public class Reports extends HttpServlet{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
+
         String do_this = req.getParameter("do_this");
 
         switch (do_this) {
             case "delete":
-                removeBuilding(req);
-                prepareBuildingList(req);
-                resp.sendRedirect("buildinglist.jsp");
+                removeReport(req);
+                prepareReportList(req);
+                resp.sendRedirect("reportlist.jsp");
                 break;
 
             case "add":
-                if(addBuilding(req)){
-                prepareBuildingList(req);
-                resp.sendRedirect("buildinglist.jsp");
-                } else resp.sendRedirect("buildingadd.jsp");
+                System.out.println("add knappen virker");
+                if (addReport(req)) {
+                    prepareReportList(req);
+                    resp.sendRedirect("reportlist.jsp");
+                } else {
+                    resp.sendRedirect("reportadd.jsp");
+                }
                 break;
         }
 
-        
-        
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        
+        prepareBuildingList(req);
+        prepareReportList(req);
+        resp.sendRedirect("reportlist.jsp");
     }
-    
+
 }

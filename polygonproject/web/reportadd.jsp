@@ -4,11 +4,13 @@
     Author     : terfy
 --%>
 
+<%@page import="controller.Report"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="controller.Building"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% List<Building> buildings = ((ArrayList<Building>) request.getSession().getAttribute("buildings")); %>
+<% List<Report> reports = ((ArrayList<Report>) request.getSession().getAttribute("reports")); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
@@ -19,21 +21,34 @@
     <body>
         <h1>report add</h1>
         <form action="addreport" method="POST">
+
             <p>Vælg fil(er)</p>
             <input type="file" name="file" /></br>
-            <p>Choose building</p>
-            <select name="building">
-                <% for(Building b : buildings){ %>
-                    <option value="<%= b.getId() %>" selected ><%= b.getOwner() %></option>
-                <% } %>
-                
+
+            <p>Choose building and condition</p>
+            <select name="buildingID">
+            <% for(Building b : buildings){ %>
+                <option value="8" selected >8 fat det</option>
+                <option value="<%= b.getId() %>" ><%= b.getOwner() %></option>
+            <% } %>
             </select>
-            <input type="password" name="password" /></br>
-            <input type="password" name="password2" />bekræft kode</br>
-            <p>Email adresse</p>
-            <input type="text" name="email" /></br>
+
+            </br>
+            <p>Itemname<br />
+              <input type="text" name="itemname" /></p>
+            <p>Item Problem<br />
+              <input type="text" name="itemproblem" /></p>
+            <p>Floor<br />
+              <input type="text" name="floor" /></p>
+            <p>Room Number<br />
+              <input type="text" name="roomnumber" /></p>
+            <p>Importancy<br />
+                <input type="text" name="importancy" /></p>
+            <p>Comments<br />
+                <textarea name="comments"></textarea></p>
+
             <input type="hidden" name="do_this" value="add" />
-            <input type="submit" name="submit" value="Add user"/>
+            <input type="submit" name="submit" value="Add report"/>
         </form>
     </body>
 </html>

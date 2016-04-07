@@ -16,9 +16,9 @@
         
         <h1>Vælg et menupunkt</h1>
         <ul>
-            <li><a href="usersadd.jsp">users</a></li>
-            <li><a href="buildingadd.jsp">buildings</a></li>
-            <li><a href="reportadd.jsp">reports</a></li>
+            <li><a href="listusers">users</a></li>
+            <li><a href="listbuilding">buildings</a></li>
+            <li><a href="listreports">reports</a></li>
         </ul>
     </body>
 </html>

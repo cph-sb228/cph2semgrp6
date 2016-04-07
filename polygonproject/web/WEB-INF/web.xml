@@ -5,6 +5,8 @@
             30
         </session-timeout>
     </session-config>
+
+    <!-- BUILDINGS -->
     <servlet>
         <servlet-name>AddBuilding</servlet-name>
         <servlet-class>view.Buildings</servlet-class>
@@ -21,7 +23,24 @@
         <servlet-name>DeleteBuilding</servlet-name>
         <url-pattern>/deletebuilding</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ListBuilding</servlet-name>
+        <servlet-class>view.Buildings</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ListBuilding</servlet-name>
+        <url-pattern>/listbuilding</url-pattern>
+    </servlet-mapping>
     
+    <!-- USERS -->
+    <servlet>
+        <servlet-name>ListUsers</servlet-name>
+        <servlet-class>view.Users</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ListUsers</servlet-name>
+        <url-pattern>/listusers</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>AddUser</servlet-name>
         <servlet-class>view.Users</servlet-class>
@@ -37,5 +56,31 @@
     <servlet-mapping>
         <servlet-name>DeleteUser</servlet-name>
         <url-pattern>/deleteuser</url-pattern>
+    </servlet-mapping>
+    
+    <!-- REPORTS -->
+    <servlet>
+        <servlet-name>ListReports</servlet-name>
+        <servlet-class>view.Reports</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ListReports</servlet-name>
+        <url-pattern>/listreports</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AddReport</servlet-name>
+        <servlet-class>view.Reports</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddReport</servlet-name>
+        <url-pattern>/addreport</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DeleteReport</servlet-name>
+        <servlet-class>view.Reports</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteReport</servlet-name>
+        <url-pattern>/deletereport</url-pattern>
     </servlet-mapping>
 </web-app>

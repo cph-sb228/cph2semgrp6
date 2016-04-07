@@ -13,7 +13,7 @@
         <title>Building add</title>
     </head>
     <body>
-        <h1>Building list</h1>
+        <h1>Building add</h1>
         <form action="addbuilding" method="POST">
             <p>Company name</p>
             <input type="text" name="owner" /></br>

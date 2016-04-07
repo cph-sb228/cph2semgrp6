@@ -18,15 +18,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.UsersMapper;
 
-
 /**
  *
  * @author terfy
  */
-
 public class Users extends HttpServlet {
 
-        private void removeUser(HttpServletRequest req) {
+    private void removeUser(HttpServletRequest req) {
         int id = Integer.parseInt(req.getParameter("id"));
         try {
             UsersMapper.removeUser(id);
@@ -75,10 +73,12 @@ public class Users extends HttpServlet {
                 break;
 
             case "add":
-                if(addUser(req)){
-                prepareUserList(req);
-                resp.sendRedirect("userslist.jsp");
-                } else resp.sendRedirect("usersadd.jsp");
+                if (addUser(req)) {
+                    prepareUserList(req);
+                    resp.sendRedirect("userslist.jsp");
+                } else {
+                    resp.sendRedirect("usersadd.jsp");
+                }
                 break;
         }
 
@@ -86,10 +86,8 @@ public class Users extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        prepareUserList(req);
+        resp.sendRedirect("userslist.jsp");
     }
-
-    
-    
 
 }
