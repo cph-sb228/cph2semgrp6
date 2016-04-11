@@ -14,12 +14,19 @@ public class User {
     private String username;
     private String password;
     private String email;
+    private String type;
 
-    public User(String username, String password, String email) {
+    public User(String username, String password, String email, String type) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.type = type;
     }
+
+    public String getType() {
+        return type;
+    }
+
 
     public String getEmail() {
         return email;

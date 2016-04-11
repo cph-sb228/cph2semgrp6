@@ -5,7 +5,6 @@
             30
         </session-timeout>
     </session-config>
-
     <!-- BUILDINGS -->
     <servlet>
         <servlet-name>AddBuilding</servlet-name>
@@ -31,7 +30,6 @@
         <servlet-name>ListBuilding</servlet-name>
         <url-pattern>/listbuilding</url-pattern>
     </servlet-mapping>
-    
     <!-- USERS -->
     <servlet>
         <servlet-name>ListUsers</servlet-name>
@@ -57,7 +55,6 @@
         <servlet-name>DeleteUser</servlet-name>
         <url-pattern>/deleteuser</url-pattern>
     </servlet-mapping>
-    
     <!-- REPORTS -->
     <servlet>
         <servlet-name>ListReports</servlet-name>

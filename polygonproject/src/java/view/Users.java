@@ -23,7 +23,17 @@ import model.UsersMapper;
  * @author terfy
  */
 public class Users extends HttpServlet {
-
+    
+    public static List<User> getUsers() {
+        List<User> users = null;
+        try {
+            users = UsersMapper.getUser();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return users;
+    }
+    
     private void removeUser(HttpServletRequest req) {
         int id = Integer.parseInt(req.getParameter("id"));
         try {
@@ -39,8 +49,9 @@ public class Users extends HttpServlet {
         String password = (String) req.getParameter("password");
         String password2 = (String) req.getParameter("password2");
         String email = (String) req.getParameter("email");
-        if (username.length() > 0 && password.length() > 0 && password.equals(password2)) {
-            User user = new User(username, password, email);
+        String type = (String) req.getParameter("type");
+        if (username.length() > 0 && password.length() > 0 && password.equals(password2) && type.length() > 0) {
+            User user = new User(username, password, email, type);
             try {
                 UsersMapper.insertUser(user);
                 return true;
@@ -86,8 +97,14 @@ public class Users extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        prepareUserList(req);
-        resp.sendRedirect("userslist.jsp");
+        if(req.getSession().getAttribute("logged_in_type") != null 
+                && req.getSession().getAttribute("logged_in_type").equals("polygon")){
+            prepareUserList(req);
+            resp.sendRedirect("userslist.jsp");
+        } else {
+            resp.sendRedirect("index.jsp");
+        
+        }
     }
 
 }

@@ -22,6 +22,8 @@
             <input type="password" name="password2" />bekræft kode</br>
             <p>Email adresse</p>
             <input type="text" name="email" /></br>
+            <p>Login type</p>
+            <input type="text" name="type" /></br>
             <input type="hidden" name="do_this" value="add" />
             <input type="submit" name="submit" value="Add user"/>
         </form>

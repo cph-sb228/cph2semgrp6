@@ -23,11 +23,12 @@ public class UsersMapper {
     public static boolean insertUser(User user) throws ClassNotFoundException {
 
         try {
-            String sql = "INSERT INTO `users` (`username`,`password`, `email`) VALUES (?,?,?);";
+            String sql = "INSERT INTO `users` (`username`,`password`, `email`, `type`) VALUES (?,?,?,?);";
             PreparedStatement ps = DBAccess.prepare(sql);
             ps.setString(1, user.getUsername());
             ps.setString(2, user.getPassword());
             ps.setString(3, user.getEmail());
+            ps.setString(4, user.getType());
             ps.execute();
         } catch (SQLException ex) {
             System.out.println("Exception Caught in insertUser" + ex.getMessage());
@@ -52,7 +53,8 @@ public class UsersMapper {
                 String username = rs.getString("username");
                 String password = rs.getString("password");
                 String email = rs.getString("email");
-                User user = new User(username, password, email);
+                String type = rs.getString("type");
+                User user = new User(username, password, email, type);
                 user.setId(rs.getInt("id"));
                 users.add(user);
             }
