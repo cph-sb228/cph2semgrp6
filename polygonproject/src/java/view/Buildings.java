@@ -34,7 +34,7 @@ public class Buildings extends HttpServlet {
     }
 
     private boolean addBuilding(HttpServletRequest req) {
-        String owner = (String) req.getParameter("owner");
+        String owner = (String) req.getSession().getAttribute("logged_in_name");
         String address = (String) req.getParameter("address");
         String housenr = (String) req.getParameter("housenr");
         String zipcode = (String) req.getParameter("zipcode");
@@ -42,8 +42,7 @@ public class Buildings extends HttpServlet {
         String floor = (String) req.getParameter("floor");
         String km2 = (String) req.getParameter("km2");
         String conditions = (String) req.getParameter("conditions");
-        if (owner.length() > 0
-                && address.length() > 0
+        if (address.length() > 0
                 && housenr.length() > 0
                 && zipcode.length() > 0
                 && city.length() > 0
@@ -66,8 +65,10 @@ public class Buildings extends HttpServlet {
 
     private void prepareBuildingList(HttpServletRequest req) {
         List<Building> buildings = null;
+        String ownerName = (String) req.getSession().getAttribute("logged_in_name");
+        String ownerType = (String) req.getSession().getAttribute("logged_in_type");
         try {
-            buildings = BuildingMapper.getBuildings();
+            buildings = BuildingMapper.getBuildings(ownerName, ownerType);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Buildings.class.getName()).log(Level.SEVERE, null, ex);
         }

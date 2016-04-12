@@ -9,6 +9,11 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="controller.Building"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<% String ownerType = (String) request.getSession().getAttribute("logged_in_type"); %>
+<% if (ownerType==null || ownerType.equals("")){
+    response.sendRedirect("Login");
+} %>
+
 <% List<Building> buildings = ((ArrayList<Building>) request.getSession().getAttribute("buildings")); %>
 <% List<Report> reports = ((ArrayList<Report>) request.getSession().getAttribute("reports")); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"

@@ -4,6 +4,11 @@
     Author     : terfy
 --%>
 
+<% String ownerType = (String) request.getSession().getAttribute("logged_in_type"); %>
+<% if (ownerType==null || ownerType.equals("")){
+    response.sendRedirect("Login");
+} %>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -15,8 +20,6 @@
     <body>
         <h1>Building add</h1>
         <form action="addbuilding" method="POST">
-            <p>Company name</p>
-            <input type="text" name="owner" /></br>
             <p>Street</p>
             <input type="text" name="address" /></br>
             <p>Building nr.</p>

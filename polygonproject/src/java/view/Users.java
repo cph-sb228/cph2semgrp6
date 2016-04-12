@@ -102,7 +102,7 @@ public class Users extends HttpServlet {
             prepareUserList(req);
             resp.sendRedirect("userslist.jsp");
         } else {
-            resp.sendRedirect("index.jsp");
+            resp.sendRedirect("index.html");
         
         }
     }

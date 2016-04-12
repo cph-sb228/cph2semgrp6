@@ -9,6 +9,10 @@
 <%@page import="controller.Building"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% List<Building> buildings = ((ArrayList<Building>) request.getSession().getAttribute("buildings")); %>
+<% String ownerType = (String) request.getSession().getAttribute("logged_in_type"); %>
+<% if (ownerType==null || ownerType.equals("")){
+    response.sendRedirect("Login");
+} %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
@@ -18,7 +22,9 @@
     </head>
     <body>
         <h1>Liste over bygninger</h1>
+        <% if (!ownerType.equals("polygon")){ %>
         <a href="buildingadd.jsp">Add building</a>
+        <% ;} %>
         <table>
             <th>Company </th><th>Street </th><th>House nr.  </th><th>Zipcode    </th><th>City   </th><th>Floor  </th><th>Square meters  </th><th>Condition</th>
         <%

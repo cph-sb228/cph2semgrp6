@@ -71,8 +71,10 @@ public class Reports extends HttpServlet {
     
     private void prepareBuildingList(HttpServletRequest req) {
         List<Building> buildings = null;
+        String ownerName = (String) req.getSession().getAttribute("logged_in_name");
+        String ownerType = (String) req.getSession().getAttribute("logged_in_type");
         try {
-            buildings = BuildingMapper.getBuildings();
+            buildings = BuildingMapper.getBuildings(ownerName, ownerType);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Buildings.class.getName()).log(Level.SEVERE, null, ex);
         }

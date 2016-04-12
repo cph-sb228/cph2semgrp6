@@ -38,13 +38,17 @@ public class BuildingMapper {
         return true;
     }
 
-    public static List<Building> getBuildings() throws ClassNotFoundException {
+    public static List<Building> getBuildings(String ownerName, String ownerType) throws ClassNotFoundException {
 
         List<Building> buildings = new ArrayList();
-
+        
         try {
+            String sql = "";
 
-            String sql = "SELECT * FROM `buildings`;";
+            if (ownerType.equals("polygon")){
+                sql = "SELECT * FROM `buildings`;";
+            } else sql = "SELECT * FROM `buildings` WHERE `owner` = '"+ownerName+"';";
+            
             DBAccess DB = DBAccess.getInstance();
             Statement st = DB.getCon().createStatement();
             ResultSet rs = st.executeQuery(sql);

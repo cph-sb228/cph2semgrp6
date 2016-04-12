@@ -21,32 +21,42 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "Login", urlPatterns = {"/Login"})
 public class Login extends HttpServlet {
+
     private List<User> users;
 
-    private boolean checkUserType(HttpServletRequest req, List<Users> users){
-        return true;
-    }
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response, List<User> users) throws ServletException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        String logged_in_type = "";
 
-        if(username.length() > 0 && password.length()> 0){
-            for(User user : users){
-                if(user.getUsername().equals(username) && user.getPassword().equals(password)){
+        if (username.length() > 0 && password.length() > 0) {
+            for (User user : users) {
+                if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                    logged_in_type = user.getType();
                     request.getSession().setAttribute("logged_in_name", username);
                     request.getSession().setAttribute("logged_in_type", user.getType());
-                    response.sendRedirect("index.jsp");
-                } else response.sendRedirect("Login");
-
+                    break;
+                }
             }
-        } else response.sendRedirect("Login");
+        }
+        
+        switch (logged_in_type) {
+            case "customer":
+                response.sendRedirect("menu_customers.html");
+                break;
+            case "polygon":
+                response.sendRedirect("menu_polygon.html");
+                break;
+            default:
+                response.sendRedirect("Login");
+                break;
+        }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.sendRedirect("login.html");
+        response.sendRedirect("index.html");
     }
 
     @Override
