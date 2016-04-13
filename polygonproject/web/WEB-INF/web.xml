@@ -1,15 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    
     <session-config>
         <session-timeout>
             30
         </session-timeout>
+        
     </session-config>
+    <!-- REDIRECT -->
+    <servlet>
+        <servlet-name>Logout</servlet-name>
+        <servlet-class>view.Logout</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Logout</servlet-name>
+        <url-pattern>/Logout</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>RedirectToMenu</servlet-name>
+        <servlet-class>view.RedirectToMenu</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RedirectToMenu</servlet-name>
+        <url-pattern>/menu</url-pattern>
+    </servlet-mapping>
     <!-- BUILDINGS -->
     <servlet>
         <servlet-name>AddBuilding</servlet-name>
         <servlet-class>view.Buildings</servlet-class>
     </servlet>
+    
     <servlet-mapping>
         <servlet-name>AddBuilding</servlet-name>
         <url-pattern>/addbuilding</url-pattern>

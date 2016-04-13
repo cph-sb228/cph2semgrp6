@@ -24,6 +24,8 @@
         <title>report add</title>
     </head>
     <body>
+        <a href="menu">Tilbage til menu</a>
+        <a href="Logout">Log ud</a><br />
         <h1>report add</h1>
         <form action="addreport" method="POST">
 

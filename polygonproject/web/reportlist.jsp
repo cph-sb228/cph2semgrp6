@@ -8,10 +8,17 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% String ownerType = (String) request.getSession().getAttribute("logged_in_type"); %>
-<% if (ownerType==null || ownerType.equals("")){
-    response.sendRedirect("Login");
-} %>
+<% 
+    String ownerType = "";
+    if (request.getSession().getAttribute("logged_in_type") != null){
+        ownerType = (String) request.getSession().getAttribute("logged_in_type");
+    }
+    if (ownerType.equals("")){
+        response.sendRedirect("Login");
+    }
+    if (request.getSession().getAttribute("reports")==null) response.sendRedirect("Login");
+    
+%>
 
 <% List<Report> reports = ((ArrayList<Report>) request.getSession().getAttribute("reports")); %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -22,6 +29,8 @@
             <title>Report liste</title>
     </head>
     <body>
+        <a href="menu">Tilbage til menu</a>
+        <a href="Logout">Log ud</a><br />
         <h1>Liste over reports</h1>
         <a href="reportadd.jsp">Add report</a>
         <table>

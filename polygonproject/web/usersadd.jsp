@@ -18,6 +18,8 @@
         <title>user add</title>
     </head>
     <body>
+        <a href="menu">Tilbage til menu</a>
+        <a href="Logout">Log ud</a><br />
         <h1>User add</h1>
         <form action="adduser" method="POST">
             <p>User name</p>

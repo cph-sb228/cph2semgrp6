@@ -21,6 +21,8 @@
             <title>Bygning liste</title>
     </head>
     <body>
+        <a href="menu">Tilbage til menu</a>
+        <a href="Logout">Log ud</a><br />
         <h1>Liste over bygninger</h1>
         <% if (!ownerType.equals("polygon")){ %>
         <a href="buildingadd.jsp">Add building</a>

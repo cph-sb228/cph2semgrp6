@@ -22,6 +22,8 @@
             <title>User liste</title>
     </head>
     <body>
+        <a href="menu">Tilbage til menu</a>
+        <a href="Logout">Log ud</a><br />
         <h1>Liste over brugere</h1>
         <a href="usersadd.jsp">Add user</a>
         <table>

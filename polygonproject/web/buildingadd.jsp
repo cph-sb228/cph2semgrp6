@@ -18,6 +18,8 @@
         <title>Building add</title>
     </head>
     <body>
+        <a href="menu">Tilbage til menu</a>
+        <a href="Logout">Log ud</a><br />
         <h1>Building add</h1>
         <form action="addbuilding" method="POST">
             <p>Street</p>
