@@ -27,15 +27,14 @@
         <a href="menu">Tilbage til menu</a>
         <a href="Logout">Log ud</a><br />
         <h1>report add</h1>
-        <form action="addreport" method="POST">
+        <form action="addreport" method="POST" enctype="multipart/form-data">
 
             <p>Vælg fil(er)</p>
-            <input type="file" name="file" /></br>
+            <input type="file" name="file" multiple="true" /></br>
 
             <p>Choose building and condition</p>
             <select name="buildingID">
             <% for(Building b : buildings){ %>
-                <option value="8" selected >8 fat det</option>
                 <option value="<%= b.getId() %>" ><%= b.getOwner() %></option>
             <% } %>
             </select>
@@ -46,9 +45,9 @@
             <p>Item Problem<br />
               <input type="text" name="itemproblem" /></p>
             <p>Floor<br />
-              <input type="text" name="floor" /></p>
+                <input type="text" name="floor" />(Optional)</p>
             <p>Room Number<br />
-              <input type="text" name="roomnumber" /></p>
+              <input type="text" name="roomnumber" />(Optional)</p>
             <p>Importancy<br />
                 <input type="text" name="importancy" /></p>
             <p>Comments<br />

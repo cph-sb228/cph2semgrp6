@@ -6,6 +6,7 @@
 package view;
 
 import controller.Building;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
@@ -31,6 +32,10 @@ public class Buildings extends HttpServlet {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Buildings.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private void addBuildingFloorplan(File file, String path, String filename){
+        
     }
 
     private boolean addBuilding(HttpServletRequest req) {

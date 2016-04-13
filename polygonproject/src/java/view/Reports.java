@@ -7,14 +7,17 @@ package view;
 
 import controller.Building;
 import controller.Report;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import model.BuildingMapper;
 import model.ReportMapper;
 
@@ -33,7 +36,7 @@ public class Reports extends HttpServlet {
         }
     }
 
-    private boolean addReport(HttpServletRequest req) {
+    private boolean addReport(HttpServletRequest req) throws IOException, ServletException {
         String buildingID = req.getParameter("buildingID");
         String itemname = req.getParameter("itemname");
         String itemproblem = (String) req.getParameter("itemproblem");
@@ -41,6 +44,8 @@ public class Reports extends HttpServlet {
         String roomnumber = (String) req.getParameter("roomnumber");
         String importancy = (String) req.getParameter("importancy");
         String comments = (String) req.getParameter("comments");
+        List<Part> fileParts = req.getParts().stream().filter(part -> "file".equals(part.getName())).collect(Collectors.toList());
+        
         if (itemname.length() > 0
                 && itemproblem.length() > 0
                 && floor.length() > 0

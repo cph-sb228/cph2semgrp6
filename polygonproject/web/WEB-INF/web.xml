@@ -5,9 +5,9 @@
         <session-timeout>
             30
         </session-timeout>
-        
     </session-config>
-    <!-- REDIRECT -->
+    
+    <!-- LOGOUT -->
     <servlet>
         <servlet-name>Logout</servlet-name>
         <servlet-class>view.Logout</servlet-class>
@@ -16,6 +16,8 @@
         <servlet-name>Logout</servlet-name>
         <url-pattern>/Logout</url-pattern>
     </servlet-mapping>
+    
+    <!-- REDIRECT -->
     <servlet>
         <servlet-name>RedirectToMenu</servlet-name>
         <servlet-class>view.RedirectToMenu</servlet-class>
@@ -24,16 +26,18 @@
         <servlet-name>RedirectToMenu</servlet-name>
         <url-pattern>/menu</url-pattern>
     </servlet-mapping>
-    <!-- BUILDINGS -->
+    
+    <!-- ADD BUILDINGS -->
     <servlet>
         <servlet-name>AddBuilding</servlet-name>
         <servlet-class>view.Buildings</servlet-class>
     </servlet>
-    
     <servlet-mapping>
         <servlet-name>AddBuilding</servlet-name>
         <url-pattern>/addbuilding</url-pattern>
     </servlet-mapping>
+    
+    <!-- DELETE BUILDINGS -->
     <servlet>
         <servlet-name>DeleteBuilding</servlet-name>
         <servlet-class>view.Buildings</servlet-class>
@@ -42,6 +46,8 @@
         <servlet-name>DeleteBuilding</servlet-name>
         <url-pattern>/deletebuilding</url-pattern>
     </servlet-mapping>
+    
+    <!-- LIST BUILDINGS -->
     <servlet>
         <servlet-name>ListBuilding</servlet-name>
         <servlet-class>view.Buildings</servlet-class>
@@ -50,7 +56,8 @@
         <servlet-name>ListBuilding</servlet-name>
         <url-pattern>/listbuilding</url-pattern>
     </servlet-mapping>
-    <!-- USERS -->
+    
+    <!-- LIST USERS -->
     <servlet>
         <servlet-name>ListUsers</servlet-name>
         <servlet-class>view.Users</servlet-class>
@@ -59,6 +66,8 @@
         <servlet-name>ListUsers</servlet-name>
         <url-pattern>/listusers</url-pattern>
     </servlet-mapping>
+    
+    <!-- ADD USER -->
     <servlet>
         <servlet-name>AddUser</servlet-name>
         <servlet-class>view.Users</servlet-class>
@@ -67,6 +76,8 @@
         <servlet-name>AddUser</servlet-name>
         <url-pattern>/adduser</url-pattern>
     </servlet-mapping>
+    
+    <!-- DELETE USER -->
     <servlet>
         <servlet-name>DeleteUser</servlet-name>
         <servlet-class>view.Users</servlet-class>
@@ -75,7 +86,8 @@
         <servlet-name>DeleteUser</servlet-name>
         <url-pattern>/deleteuser</url-pattern>
     </servlet-mapping>
-    <!-- REPORTS -->
+    
+    <!-- LIST REPORTS -->
     <servlet>
         <servlet-name>ListReports</servlet-name>
         <servlet-class>view.Reports</servlet-class>
@@ -84,6 +96,8 @@
         <servlet-name>ListReports</servlet-name>
         <url-pattern>/listreports</url-pattern>
     </servlet-mapping>
+    
+    <!-- ADD REPORTS -->
     <servlet>
         <servlet-name>AddReport</servlet-name>
         <servlet-class>view.Reports</servlet-class>
@@ -92,6 +106,8 @@
         <servlet-name>AddReport</servlet-name>
         <url-pattern>/addreport</url-pattern>
     </servlet-mapping>
+    
+    <!-- DELETE REPORTS -->
     <servlet>
         <servlet-name>DeleteReport</servlet-name>
         <servlet-class>view.Reports</servlet-class>
