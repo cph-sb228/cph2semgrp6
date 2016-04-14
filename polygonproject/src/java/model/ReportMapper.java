@@ -30,15 +30,7 @@ public class ReportMapper {
                         + "`file`"
                         + ") VALUES (?,?,?);";
                 PreparedStatement ps = DBAccess.prepare(sql);
-                ResultSet rs = ps.getGeneratedKeys();
-                int i = 0;
-                if (rs.next()){
-                    
-                    System.out.println(i + " getInt ");
-                } else System.out.println("har ingen next");
-                report.setId(i);
-                System.out.println(report.getId() + " report id ");
-                
+                System.out.println(report.getId());
                 ps.setInt(1, report.getId());
                 ps.setString(2, file.getName());
                 ps.setBlob(3, file.getInputStream());
@@ -72,6 +64,8 @@ public class ReportMapper {
             ps.setString(6, report.getImportancy());
             ps.setString(7, report.getComments());
             ps.execute();
+            ResultSet rs = ps.getGeneratedKeys();
+            if(rs.next()) report.setId(rs.getInt(1));
         } catch (SQLException ex) {
             System.out.println("Exception Caught in instertReport " + ex.getMessage());
             return false;
