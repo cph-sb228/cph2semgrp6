@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +26,7 @@ import model.ReportMapper;
  *
  * @author terfy
  */
+@MultipartConfig
 public class Reports extends HttpServlet {
 
     private void removeReport(HttpServletRequest req) {
@@ -55,6 +57,8 @@ public class Reports extends HttpServlet {
             report.setBuildingID(Integer.parseInt(buildingID));
             try {
                 ReportMapper.insertReport(report);
+                System.out.println("insert report");
+                ReportMapper.insertBlob(report, fileParts);
                 return true;
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);

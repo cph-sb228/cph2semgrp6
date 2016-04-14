@@ -42,7 +42,7 @@ public class DBAccess {
 
     public static PreparedStatement prepare(String SQLString) throws ClassNotFoundException {
         try {
-            stmt = (PreparedStatement) getInstance().getCon().prepareStatement(SQLString);
+            stmt = (PreparedStatement) getInstance().getCon().prepareStatement(SQLString, Statement.RETURN_GENERATED_KEYS);
         } catch (SQLException e) {
             System.out.println("Error in DB.prepare()" + e.getMessage());
         }

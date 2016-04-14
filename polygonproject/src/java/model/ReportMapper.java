@@ -7,15 +7,49 @@ package model;
 
 import controller.Report;
 import controller.DBAccess;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.Part;
 
 /**
  *
  * @author terfy
  */
 public class ReportMapper {
+    
+    
+    public static boolean insertBlob(Report report, List<Part> fileparts) throws ClassNotFoundException, IOException {
+        for (Part file : fileparts) {
+            System.out.println("vi har filerne med");
+            try {
+                String sql = "INSERT INTO `files` ("
+                        + "`reportId`,"
+                        + "`filename`,"
+                        + "`file`"
+                        + ") VALUES (?,?,?);";
+                PreparedStatement ps = DBAccess.prepare(sql);
+                ResultSet rs = ps.getGeneratedKeys();
+                int i = 0;
+                if (rs.next()){
+                    
+                    System.out.println(i + " getInt ");
+                } else System.out.println("har ingen next");
+                report.setId(i);
+                System.out.println(report.getId() + " report id ");
+                
+                ps.setInt(1, report.getId());
+                ps.setString(2, file.getName());
+                ps.setBlob(3, file.getInputStream());
+                ps.execute();
+            } catch (SQLException ex) {
+                System.out.println("Exception Caught in instertReport" + ex.getMessage());
+                return false;
+            }
+        }
+        return true;
+    }
 
     public static boolean insertReport(Report report) throws ClassNotFoundException {
 
@@ -39,7 +73,7 @@ public class ReportMapper {
             ps.setString(7, report.getComments());
             ps.execute();
         } catch (SQLException ex) {
-            System.out.println("Exception Caught in instertReport" + ex.getMessage());
+            System.out.println("Exception Caught in instertReport " + ex.getMessage());
             return false;
         }
         return true;
