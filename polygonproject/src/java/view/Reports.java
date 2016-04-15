@@ -9,6 +9,8 @@ import controller.Building;
 import controller.Report;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,7 +48,11 @@ public class Reports extends HttpServlet {
         String roomnumber = (String) req.getParameter("roomnumber");
         String importancy = (String) req.getParameter("importancy");
         String comments = (String) req.getParameter("comments");
-        List<Part> fileParts = req.getParts().stream().filter(part -> "file".equals(part.getName())).collect(Collectors.toList());
+        List<Part> fileParts = Collections.emptyList();
+        
+        if(req.getPart("file").getSize() > 0){
+            fileParts = req.getParts().stream().filter(part -> "file".equals(part.getName())).collect(Collectors.toList());
+        }
         
         if (itemname.length() > 0
                 && itemproblem.length() > 0

@@ -21,6 +21,7 @@ public class ReportMapper {
     
     
     public static boolean insertBlob(Report report, List<Part> fileparts) throws ClassNotFoundException, IOException {
+        if(fileparts.isEmpty()) return true;
         for (Part file : fileparts) {
             System.out.println("vi har filerne med");
             try {
