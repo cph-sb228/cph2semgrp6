@@ -20,6 +20,7 @@ import java.util.List;
  */
 public class UsersMapper {
     
+    //Creates a user from user input
     public static boolean insertUser(User user) throws ClassNotFoundException {
 
         try {
@@ -31,12 +32,13 @@ public class UsersMapper {
             ps.setString(4, user.getType());
             ps.execute();
         } catch (SQLException ex) {
-            System.out.println("Exception Caught in insertUser" + ex.getMessage());
+            System.out.println("Exception Caught in insertUser " + ex.getMessage());
             return false;
         }
         return true;
     }
 
+    //Returns a list of all users in the system
     public static List<User> getUser() throws ClassNotFoundException {
 
         List<User> users = new ArrayList();
@@ -61,11 +63,12 @@ public class UsersMapper {
 
             return users;
         } catch (SQLException ex) {
-            System.out.println("DU BIST EIN USER TABER!!" + ex.getMessage());
+            System.out.println("Exception caught in getUser " + ex.getMessage());
             return null;
         }
     }
-
+    
+    //Remove a specific user based on its ID
     public static boolean removeUser(int id) throws ClassNotFoundException {
 
         try {

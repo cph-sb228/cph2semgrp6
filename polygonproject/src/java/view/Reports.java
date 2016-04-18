@@ -30,7 +30,8 @@ import model.ReportMapper;
  */
 @MultipartConfig
 public class Reports extends HttpServlet {
-
+        
+    //method is called upon delete-button press and sends an ID to the report mapper. 
     private void removeReport(HttpServletRequest req) {
         int id = Integer.parseInt(req.getParameter("id"));
         try {
@@ -40,6 +41,7 @@ public class Reports extends HttpServlet {
         }
     }
 
+    
     private boolean addReport(HttpServletRequest req) throws IOException, ServletException {
         String buildingID = req.getParameter("buildingID");
         String itemname = req.getParameter("itemname");

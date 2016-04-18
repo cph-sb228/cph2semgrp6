@@ -24,6 +24,7 @@ import model.UsersMapper;
  */
 public class Users extends HttpServlet {
     
+   
     public static List<User> getUsers() {
         List<User> users = null;
         try {
@@ -33,7 +34,8 @@ public class Users extends HttpServlet {
         }
         return users;
     }
-    
+   
+    //Upon pressing delete, chosen user's ID will be sent to the user mapper
     private void removeUser(HttpServletRequest req) {
         int id = Integer.parseInt(req.getParameter("id"));
         try {
@@ -43,6 +45,7 @@ public class Users extends HttpServlet {
         }
     }
 
+    //By filling the form and submiting, the info will be sent to the user mapper 
     private boolean addUser(HttpServletRequest req) {
         //int id = Integer.parseInt(req.getParameter("id"));
         String username = (String) req.getParameter("username");

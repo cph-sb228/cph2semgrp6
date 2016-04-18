@@ -44,6 +44,7 @@ public class ReportMapper {
         return true;
     }
 
+    // creates a SQL statement from user input, which creates a report.
     public static boolean insertReport(Report report) throws ClassNotFoundException {
 
         try {
@@ -74,6 +75,7 @@ public class ReportMapper {
         return true;
     }
 
+    // returns a full list of all the reports.
     public static List<Report> getReports() throws ClassNotFoundException {
 
         List<Report> reports = new ArrayList();
@@ -100,11 +102,11 @@ public class ReportMapper {
 
             return reports;
         } catch (SQLException ex) {
-            System.out.println("DU BIST EIN REPORT TABER!!" + ex.getMessage());
+            System.out.println("Exception caught in getReports " + ex.getMessage());
             return null;
         }
     }
-
+    //SQL statement that removes a report based on its ID
     public static boolean removeReport(int id) throws ClassNotFoundException {
 
         try {

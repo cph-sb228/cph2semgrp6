@@ -17,6 +17,8 @@ import java.util.List;
  */
 public class BuildingMapper {
 
+    
+    //SQL request to add a building
     public static boolean insertBuilding(Building building) throws ClassNotFoundException {
 
         try {
@@ -37,7 +39,8 @@ public class BuildingMapper {
         }
         return true;
     }
-
+    
+    //SQL select request, which returns a list of buildings depending on user type
     public static List<Building> getBuildings(String ownerName, String ownerType) throws ClassNotFoundException {
 
         List<Building> buildings = new ArrayList();
@@ -73,6 +76,7 @@ public class BuildingMapper {
         }
     }
 
+    //SQL request which deletes a building from the database, by using its unique ID
     public static boolean removeBuilding(int id) throws ClassNotFoundException {
 
         try {
