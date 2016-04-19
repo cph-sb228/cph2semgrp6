@@ -17,13 +17,12 @@ import java.util.List;
  */
 public class BuildingMapper {
 
-    
     //SQL request to add a building
-    public static boolean insertBuilding(Building building) throws ClassNotFoundException {
+    public static boolean insertBuilding(Building building) throws PolygonException {
+        String sql = "INSERT INTO `buildings` (`owner`,`address`,`housenr`,`zipcode`,`city`,`floor`,`km2`,`conditions`) VALUES (?,?,?,?,?,?,?,?);";
 
-        try {
-            String sql = "INSERT INTO `buildings` (`owner`,`address`,`housenr`,`zipcode`,`city`,`floor`,`km2`,`conditions`) VALUES (?,?,?,?,?,?,?,?);";
-            PreparedStatement ps = DBAccess.prepare(sql);
+        try (PreparedStatement ps = DBAccess.prepare(sql)) {
+
             ps.setString(1, building.getOwner());
             ps.setString(2, building.getAddress());
             ps.setInt(3, building.getHousenr());
@@ -33,25 +32,27 @@ public class BuildingMapper {
             ps.setInt(7, building.getKm2());
             ps.setString(8, building.getConditions());
             ps.execute();
-        } catch (SQLException ex) {
-            System.out.println("Exception Caught in instertBuilding" + ex.getMessage());
-            return false;
+        } catch (SQLException | ClassNotFoundException ex) {
+            String msg = "insert building fejlede";
+            throw new PolygonException(msg);
         }
         return true;
     }
-    
+
     //SQL select request, which returns a list of buildings depending on user type
-    public static List<Building> getBuildings(String ownerName, String ownerType) throws ClassNotFoundException {
+    public static List<Building> getBuildings(String ownerName, String ownerType) throws PolygonException {
 
         List<Building> buildings = new ArrayList();
-        
-        try {
             String sql = "";
 
-            if (ownerType.equals("polygon")){
+        try {
+
+            if (ownerType.equals("polygon")) {
                 sql = "SELECT * FROM `buildings`;";
-            } else sql = "SELECT * FROM `buildings` WHERE `owner` = '"+ownerName+"';";
-            
+            } else {
+                sql = "SELECT * FROM `buildings` WHERE `owner` = '" + ownerName + "';";
+            }
+
             DBAccess DB = DBAccess.getInstance();
             Statement st = DB.getCon().createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -69,27 +70,24 @@ public class BuildingMapper {
                 buildings.add(building);
             }
 
+            st.close();
             return buildings;
-        } catch (SQLException ex) {
-            System.out.println("DU BIST EIN TABER!!" + ex.getMessage());
-            return null;
+        } catch (SQLException | ClassNotFoundException ex) {
+            String msg = "get buildings til liste fejlede";
+            throw new PolygonException(msg);
         }
     }
 
     //SQL request which deletes a building from the database, by using its unique ID
-    public static boolean removeBuilding(int id) throws ClassNotFoundException {
+    public static boolean removeBuilding(int id) throws PolygonException {
+        String sql = "DELETE FROM buildings WHERE id = ?;";
 
-        try {
-
-            String sql = "DELETE FROM buildings WHERE id = ?;";
-            PreparedStatement ps = DBAccess.prepare(sql);
-            ps.setInt(1,id);
-            
+        try (PreparedStatement ps = DBAccess.prepare(sql)){
+            ps.setInt(1, id);
             ps.execute();
-
-        } catch (SQLException ex) {
-            System.out.println("Exception in removeBuilding");
-            return false;
+        } catch (SQLException | ClassNotFoundException ex) {
+            String msg = "kunne ikke slette bygning";
+            throw new PolygonException(msg);
         }
 
         return true;

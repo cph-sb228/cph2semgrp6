@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import model.BuildingMapper;
+import model.PolygonException;
 import model.ReportMapper;
 
 /**
@@ -30,19 +31,18 @@ import model.ReportMapper;
  */
 @MultipartConfig
 public class Reports extends HttpServlet {
-        
+
     //method is called upon delete-button press and sends an ID to the report mapper. 
     private void removeReport(HttpServletRequest req) {
         int id = Integer.parseInt(req.getParameter("id"));
         try {
             ReportMapper.removeReport(id);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Buildings.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PolygonException ex) {
+            req.getSession().setAttribute("errorMsg", ex);
         }
     }
 
-    
-    private boolean addReport(HttpServletRequest req) throws IOException, ServletException {
+    private void addReport(HttpServletRequest req) throws PolygonException {
         String buildingID = req.getParameter("buildingID");
         String itemname = req.getParameter("itemname");
         String itemproblem = (String) req.getParameter("itemproblem");
@@ -51,55 +51,61 @@ public class Reports extends HttpServlet {
         String importancy = (String) req.getParameter("importancy");
         String comments = (String) req.getParameter("comments");
         List<Part> fileParts = Collections.emptyList();
-        
-        if(req.getPart("file").getSize() > 0){
-            fileParts = req.getParts().stream().filter(part -> "file".equals(part.getName())).collect(Collectors.toList());
+
+        try {
+            if (req.getPart("file").getSize() > 0) {
+                fileParts = req.getParts().stream().filter(part -> "file".equals(part.getName())).collect(Collectors.toList());
+            }
+        } catch (IOException | ServletException ex) {
+            String msg = "fejl i filepart";
+            throw new PolygonException(msg);
         }
-        
+
         if (itemname.length() > 0
                 && itemproblem.length() > 0
                 && floor.length() > 0
-                && importancy.length() > 0
-                ) {
+                && importancy.length() > 0) {
+            
             Report report = new Report(itemname, itemproblem, floor, roomnumber, importancy, comments);
             report.setBuildingID(Integer.parseInt(buildingID));
             try {
                 ReportMapper.insertReport(report);
                 System.out.println("insert report");
                 ReportMapper.insertBlob(report, fileParts);
-                return true;
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (PolygonException ex) {
+                req.getSession().setAttribute("errorMsg", ex);
             }
+        } else {
+            req.getSession().setAttribute("errorMsg", "udfyld venligst de krævede felter");
+
         }
-        return false;
+
     }
 
     private void prepareReportList(HttpServletRequest req) {
         List<Report> reports = null;
         try {
             reports = ReportMapper.getReports();
-        } catch (ClassNotFoundException ex) {
-            System.out.println("byumssdflksdlkfsdkl sdfkllksdf fucking.. hell NO");
-            Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PolygonException ex) {
+            req.getSession().setAttribute("errorMsg", ex);
         }
         req.getSession().setAttribute("reports", reports);
     }
-    
+
     private void prepareBuildingList(HttpServletRequest req) {
         List<Building> buildings = null;
         String ownerName = (String) req.getSession().getAttribute("logged_in_name");
         String ownerType = (String) req.getSession().getAttribute("logged_in_type");
         try {
             buildings = BuildingMapper.getBuildings(ownerName, ownerType);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Buildings.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PolygonException ex) {
+            req.getSession().setAttribute("errorMsg", ex);
         }
         req.getSession().setAttribute("buildings", buildings);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         String do_this = req.getParameter("do_this");
 
@@ -112,10 +118,12 @@ public class Reports extends HttpServlet {
 
             case "add":
                 System.out.println("add knappen virker");
-                if (addReport(req)) {
+                try {
+                    addReport(req);
                     prepareReportList(req);
                     resp.sendRedirect("reportlist.jsp");
-                } else {
+                } catch (PolygonException ex) {
+                    req.getSession().setAttribute("errorMsg", ex);
                     resp.sendRedirect("reportadd.jsp");
                 }
                 break;
@@ -124,7 +132,7 @@ public class Reports extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         prepareBuildingList(req);
         prepareReportList(req);
         resp.sendRedirect("reportlist.jsp");

@@ -31,6 +31,7 @@ public class Login extends HttpServlet {
         
         //Runs through the list of users if both inputs weren't empty and checks if access will be allowed
         if (username.length() > 0 && password.length() > 0) {
+            System.out.println("kkdkdkkdk");
             for (User user : users) {
                 if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                     logged_in_type = user.getType();

@@ -56,5 +56,6 @@
             <input type="hidden" name="do_this" value="add" />
             <input type="submit" name="submit" value="Add report"/>
         </form>
+            <% request.getSession().getAttribute("errorMsg"); %>
     </body>
 </html>

@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.BuildingMapper;
+import model.PolygonException;
 
 /**
  *
@@ -29,8 +30,8 @@ public class Buildings extends HttpServlet {
         int id = Integer.parseInt(req.getParameter("id"));
         try {
             BuildingMapper.removeBuilding(id);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Buildings.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PolygonException ex) {
+            req.getSession().setAttribute("errorMsg", ex);
         }
     }
     
@@ -61,8 +62,8 @@ public class Buildings extends HttpServlet {
             try {
                 BuildingMapper.insertBuilding(building);
                 return true;
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Buildings.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (PolygonException ex) {
+            req.getSession().setAttribute("errorMsg", ex);
             }
         }
         return false;
@@ -74,8 +75,8 @@ public class Buildings extends HttpServlet {
         String ownerType = (String) req.getSession().getAttribute("logged_in_type");
         try {
             buildings = BuildingMapper.getBuildings(ownerName, ownerType);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Buildings.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (PolygonException ex) {
+            req.getSession().setAttribute("errorMsg", ex);
         }
         req.getSession().setAttribute("buildings", buildings);
     }

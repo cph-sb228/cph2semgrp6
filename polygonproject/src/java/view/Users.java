@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.PolygonException;
 import model.UsersMapper;
 
 /**
@@ -28,8 +29,10 @@ public class Users extends HttpServlet {
     public static List<User> getUsers() {
         List<User> users = null;
         try {
+            System.out.println("TRY");
             users = UsersMapper.getUser();
-        } catch (ClassNotFoundException ex) {
+        } catch (PolygonException ex) {
+            System.out.println("CATCH");
             Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
         }
         return users;
@@ -40,13 +43,13 @@ public class Users extends HttpServlet {
         int id = Integer.parseInt(req.getParameter("id"));
         try {
             UsersMapper.removeUser(id);
-        } catch (ClassNotFoundException ex) {
+        } catch (PolygonException ex) {
             Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     //By filling the form and submiting, the info will be sent to the user mapper 
-    private boolean addUser(HttpServletRequest req) {
+    private void addUser(HttpServletRequest req) throws PolygonException {
         //int id = Integer.parseInt(req.getParameter("id"));
         String username = (String) req.getParameter("username");
         String password = (String) req.getParameter("password");
@@ -55,24 +58,19 @@ public class Users extends HttpServlet {
         String type = (String) req.getParameter("type");
         if (username.length() > 0 && password.length() > 0 && password.equals(password2) && type.length() > 0) {
             User user = new User(username, password, email, type);
-            try {
-                UsersMapper.insertUser(user);
-                return true;
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            UsersMapper.insertUser(user);
         }
-        return false;
     }
 
     private void prepareUserList(HttpServletRequest req) {
         List<User> users = null;
         try {
             users = UsersMapper.getUser();
-        } catch (ClassNotFoundException ex) {
+        } catch (PolygonException ex) {
             Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
         }
         req.getSession().setAttribute("users", users);
+        
     }
 
     @Override
@@ -87,10 +85,11 @@ public class Users extends HttpServlet {
                 break;
 
             case "add":
-                if (addUser(req)) {
+                try {addUser(req);
                     prepareUserList(req);
                     resp.sendRedirect("userslist.jsp");
-                } else {
+                } catch (PolygonException ex) {
+                    
                     resp.sendRedirect("usersadd.jsp");
                 }
                 break;

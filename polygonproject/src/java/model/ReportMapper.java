@@ -20,44 +20,42 @@ import javax.servlet.http.Part;
 public class ReportMapper {
     
     
-    public static boolean insertBlob(Report report, List<Part> fileparts) throws ClassNotFoundException, IOException {
+    public static boolean insertBlob(Report report, List<Part> fileparts) throws PolygonException {
         if(fileparts.isEmpty()) return true;
         for (Part file : fileparts) {
             System.out.println("vi har filerne med");
-            try {
-                String sql = "INSERT INTO `files` ("
-                        + "`reportId`,"
-                        + "`filename`,"
-                        + "`file`"
-                        + ") VALUES (?,?,?);";
-                PreparedStatement ps = DBAccess.prepare(sql);
+            String sql = "INSERT INTO `files` ("
+                    + "`reportId`,"
+                    + "`filename`,"
+                    + "`file`"
+                    + ") VALUES (?,?,?);";
+            try (PreparedStatement ps = DBAccess.prepare(sql)){
                 System.out.println(report.getId());
                 ps.setInt(1, report.getId());
                 ps.setString(2, file.getName());
                 ps.setBlob(3, file.getInputStream());
                 ps.execute();
-            } catch (SQLException ex) {
-                System.out.println("Exception Caught in instertReport" + ex.getMessage());
-                return false;
+            } catch (SQLException | ClassNotFoundException | IOException ex) {
+                String msg = "kunne ikke insert fil i database";
+                throw new PolygonException(msg);
             }
         }
         return true;
     }
 
     // creates a SQL statement from user input, which creates a report.
-    public static boolean insertReport(Report report) throws ClassNotFoundException {
+    public static boolean insertReport(Report report) throws PolygonException {
+        String sql = "INSERT INTO `reports` ("
+                + "`buildingID`,"
+                + "`itemname`,"
+                + "`itemproblem`,"
+                + "`floor`,"
+                + "`roomnumber`,"
+                + "`importancy`,"
+                + "`comments`"
+                + ") VALUES (?,?,?,?,?,?,?);";
 
-        try {
-            String sql = "INSERT INTO `reports` ("
-                    + "`buildingID`,"
-                    + "`itemname`,"
-                    + "`itemproblem`,"
-                    + "`floor`,"
-                    + "`roomnumber`,"
-                    + "`importancy`,"
-                    + "`comments`"
-                    + ") VALUES (?,?,?,?,?,?,?);";
-            PreparedStatement ps = DBAccess.prepare(sql);
+        try (PreparedStatement ps = DBAccess.prepare(sql)){
             ps.setInt(1, report.getBuildingID());
             ps.setString(2, report.getItemname());
             ps.setString(3, report.getItemproblem());
@@ -68,21 +66,20 @@ public class ReportMapper {
             ps.execute();
             ResultSet rs = ps.getGeneratedKeys();
             if(rs.next()) report.setId(rs.getInt(1));
-        } catch (SQLException ex) {
-            System.out.println("Exception Caught in instertReport " + ex.getMessage());
-            return false;
+        } catch (SQLException | ClassNotFoundException ex) {
+            String msg = "kunne ikke oprette report";
+            throw new PolygonException(msg);
         }
         return true;
     }
 
     // returns a full list of all the reports.
-    public static List<Report> getReports() throws ClassNotFoundException {
+    public static List<Report> getReports() throws PolygonException {
 
         List<Report> reports = new ArrayList();
+        String sql = "SELECT * FROM `reports`;";
 
         try {
-
-            String sql = "SELECT * FROM `reports`;";
             DBAccess DB = DBAccess.getInstance();
             Statement st = DB.getCon().createStatement();
             ResultSet rs = st.executeQuery(sql);
@@ -99,27 +96,24 @@ public class ReportMapper {
                 report.setId(rs.getInt("id"));
                 reports.add(report);
             }
-
+            
+            st.close();
             return reports;
-        } catch (SQLException ex) {
-            System.out.println("Exception caught in getReports " + ex.getMessage());
-            return null;
+        } catch (SQLException | ClassNotFoundException ex) {
+            String msg = "kunne ikke hente reports til liste";
+            throw new PolygonException(msg);
         }
     }
     //SQL statement that removes a report based on its ID
-    public static boolean removeReport(int id) throws ClassNotFoundException {
+    public static boolean removeReport(int id) throws PolygonException {
+        String sql = "DELETE FROM reports WHERE id = ?;";
 
-        try {
-
-            String sql = "DELETE FROM reports WHERE id = ?;";
-            PreparedStatement ps = DBAccess.prepare(sql);
+        try (PreparedStatement ps = DBAccess.prepare(sql)){
             ps.setInt(1,id);
-            
             ps.execute();
-
-        } catch (SQLException ex) {
-            System.out.println("Exception in removeBuilding");
-            return false;
+        } catch (SQLException | ClassNotFoundException ex) {
+            String msg = "kunne ikke slette report";
+            throw new PolygonException(msg);
         }
 
         return true;
