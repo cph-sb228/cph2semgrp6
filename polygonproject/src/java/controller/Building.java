@@ -16,9 +16,18 @@ public class Building {
     private int housenr;
     private int zipcode;
     private String city;
+    private String blobname;
 
     public int getHousenr() {
         return housenr;
+    }
+
+    public String getBlobname() {
+        return blobname;
+    }
+
+    public void setBlobname(String blobname) {
+        this.blobname = blobname;
     }
 
     public void setHousenr(int housenr) {

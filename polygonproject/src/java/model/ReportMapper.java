@@ -23,7 +23,6 @@ public class ReportMapper {
     public static boolean insertBlob(Report report, List<Part> fileparts) throws PolygonException {
         if(fileparts.isEmpty()) return true;
         for (Part file : fileparts) {
-            System.out.println("vi har filerne med");
             String sql = "INSERT INTO `files` ("
                     + "`reportId`,"
                     + "`filename`,"
@@ -37,7 +36,7 @@ public class ReportMapper {
                 ps.execute();
             } catch (SQLException | ClassNotFoundException | IOException ex) {
                 String msg = "kunne ikke insert fil i database";
-                throw new PolygonException(msg);
+                throw new PolygonException(msg + " " + ex.getMessage());
             }
         }
         return true;

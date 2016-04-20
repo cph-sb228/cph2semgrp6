@@ -12,7 +12,15 @@
 <% String ownerType = (String) request.getSession().getAttribute("logged_in_type"); %>
 <% if (ownerType==null || ownerType.equals("")){
     response.sendRedirect("Login");
-} %>
+    
+}
+String msg = "";
+if(request.getAttribute("errorMsg")!=null){
+    msg = request.getAttribute("errorMsg").toString();
+}
+
+%>
+
 
 <% List<Building> buildings = ((ArrayList<Building>) request.getSession().getAttribute("buildings")); %>
 <% List<Report> reports = ((ArrayList<Report>) request.getSession().getAttribute("reports")); %>
@@ -27,6 +35,7 @@
         <a href="menu">Tilbage til menu</a>
         <a href="Logout">Log ud</a><br />
         <h1>report add</h1>
+        <p><%=msg%></p>
         <form action="addreport" method="POST" enctype="multipart/form-data">
 
             <p>Vælg fil(er)</p>
@@ -56,6 +65,6 @@
             <input type="hidden" name="do_this" value="add" />
             <input type="submit" name="submit" value="Add report"/>
         </form>
-            <% request.getSession().getAttribute("errorMsg"); %>
+            
     </body>
 </html>

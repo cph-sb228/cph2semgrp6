@@ -4,10 +4,18 @@
     Author     : terfy
 --%>
 
-<% String ownerType = (String) request.getSession().getAttribute("logged_in_type"); %>
-<% if (ownerType==null || ownerType.equals("")){
+<%
+String ownerType = (String) request.getSession().getAttribute("logged_in_type");
+
+if (ownerType==null || ownerType.equals("")){
     response.sendRedirect("Login");
-} %>
+}   
+
+String msg = "";
+if(request.getAttribute("errorMsg")!=null){
+    msg = request.getAttribute("errorMsg").toString();
+}
+%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -21,7 +29,11 @@
         <a href="menu">Tilbage til menu</a>
         <a href="Logout">Log ud</a><br />
         <h1>Building add</h1>
-        <form action="addbuilding" method="POST">
+        
+        <p><%=msg%></p>
+        <form action="addbuilding" method="POST" enctype="multipart/form-data">
+            <p>Vælg fil(er)</p>
+            <input type="file" name="file" /></br>
             <p>Street</p>
             <input type="text" name="address" /></br>
             <p>Building nr.</p>

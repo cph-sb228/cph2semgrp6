@@ -9,11 +9,15 @@ import controller.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.PolygonException;
 
 /**
  *
@@ -22,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "Login", urlPatterns = {"/Login"})
 public class Login extends HttpServlet {
 
+    RequestDispatcher rd = null;
     private List<User> users;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response, List<User> users) throws ServletException, IOException {
@@ -31,7 +36,6 @@ public class Login extends HttpServlet {
         
         //Runs through the list of users if both inputs weren't empty and checks if access will be allowed
         if (username.length() > 0 && password.length() > 0) {
-            System.out.println("kkdkdkkdk");
             for (User user : users) {
                 if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                     logged_in_type = user.getType();
@@ -64,8 +68,14 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        users = Users.getUsers();
-        processRequest(request, response, users);
+        try {
+            users = Users.getUsers();
+            processRequest(request, response, users);
+        } catch (PolygonException ex) {
+            request.setAttribute("errorMsg",ex.getMessage());
+            rd = request.getRequestDispatcher("Login");
+            rd.forward(request, response);
+        }
     }
 
     /**

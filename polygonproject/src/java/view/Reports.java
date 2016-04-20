@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -31,6 +32,8 @@ import model.ReportMapper;
  */
 @MultipartConfig
 public class Reports extends HttpServlet {
+    
+    RequestDispatcher rd = null;
 
     //method is called upon delete-button press and sends an ID to the report mapper. 
     private void removeReport(HttpServletRequest req) {
@@ -38,7 +41,7 @@ public class Reports extends HttpServlet {
         try {
             ReportMapper.removeReport(id);
         } catch (PolygonException ex) {
-            req.getSession().setAttribute("errorMsg", ex);
+            req.getSession().setAttribute("errorMsg", ex.getMessage());
         }
     }
 
@@ -73,11 +76,11 @@ public class Reports extends HttpServlet {
                 System.out.println("insert report");
                 ReportMapper.insertBlob(report, fileParts);
             } catch (PolygonException ex) {
-                req.getSession().setAttribute("errorMsg", ex);
+                req.getSession().setAttribute("errorMsg", ex.getMessage());
             }
         } else {
-            req.getSession().setAttribute("errorMsg", "udfyld venligst de krævede felter");
-
+            String msg = "udfyld venligst de krævede felter";
+            throw new PolygonException(msg);
         }
 
     }
@@ -87,7 +90,7 @@ public class Reports extends HttpServlet {
         try {
             reports = ReportMapper.getReports();
         } catch (PolygonException ex) {
-            req.getSession().setAttribute("errorMsg", ex);
+            req.getSession().setAttribute("errorMsg", ex.getMessage());
         }
         req.getSession().setAttribute("reports", reports);
     }
@@ -99,13 +102,13 @@ public class Reports extends HttpServlet {
         try {
             buildings = BuildingMapper.getBuildings(ownerName, ownerType);
         } catch (PolygonException ex) {
-            req.getSession().setAttribute("errorMsg", ex);
+            req.getSession().setAttribute("errorMsg", ex.getMessage());
         }
         req.getSession().setAttribute("buildings", buildings);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 
         String do_this = req.getParameter("do_this");
 
@@ -117,14 +120,14 @@ public class Reports extends HttpServlet {
                 break;
 
             case "add":
-                System.out.println("add knappen virker");
                 try {
                     addReport(req);
                     prepareReportList(req);
                     resp.sendRedirect("reportlist.jsp");
                 } catch (PolygonException ex) {
-                    req.getSession().setAttribute("errorMsg", ex);
-                    resp.sendRedirect("reportadd.jsp");
+                    req.setAttribute("errorMsg", ex.getMessage());
+                    rd = req.getRequestDispatcher("reportadd.jsp");
+                    rd.forward(req, resp);
                 }
                 break;
         }

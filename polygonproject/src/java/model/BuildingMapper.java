@@ -7,9 +7,14 @@ package model;
 
 import controller.Building;
 import controller.DBAccess;
+import java.io.File;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collector;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -18,8 +23,14 @@ import java.util.List;
 public class BuildingMapper {
 
     //SQL request to add a building
-    public static boolean insertBuilding(Building building) throws PolygonException {
-        String sql = "INSERT INTO `buildings` (`owner`,`address`,`housenr`,`zipcode`,`city`,`floor`,`km2`,`conditions`) VALUES (?,?,?,?,?,?,?,?);";
+    public static boolean insertBuilding(Building building, List<Part> fileparts) throws PolygonException {
+        Part file = null;
+        if(!fileparts.isEmpty()){
+            for(Part f : fileparts){
+                file = f;
+            }
+        }
+        String sql = "INSERT INTO `buildings` (`owner`,`address`,`housenr`,`zipcode`,`city`,`floor`,`km2`,`conditions`,`file`) VALUES (?,?,?,?,?,?,?,?,?);";
 
         try (PreparedStatement ps = DBAccess.prepare(sql)) {
 
@@ -31,8 +42,9 @@ public class BuildingMapper {
             ps.setInt(6, building.getFloor());
             ps.setInt(7, building.getKm2());
             ps.setString(8, building.getConditions());
+            ps.setBlob(9, file.getInputStream());
             ps.execute();
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch (SQLException | IOException | ClassNotFoundException ex) {
             String msg = "insert building fejlede";
             throw new PolygonException(msg);
         }
@@ -65,6 +77,8 @@ public class BuildingMapper {
                 int floor = rs.getInt("floor");
                 int km2 = rs.getInt("km2");
                 String conditions = rs.getString("conditions");
+                Blob blobName = rs.getBlob("file");
+                //Part file = blobName.
                 Building building = new Building(owner, address, housenr, zipcode, city, floor, km2, conditions);
                 building.setId(rs.getInt("id"));
                 buildings.add(building);

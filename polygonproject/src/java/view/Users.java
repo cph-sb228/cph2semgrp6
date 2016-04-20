@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,27 +25,28 @@ import model.UsersMapper;
  * @author terfy
  */
 public class Users extends HttpServlet {
-    
-   
-    public static List<User> getUsers() {
+
+    RequestDispatcher rd = null;
+
+    public static List<User> getUsers() throws PolygonException {
         List<User> users = null;
         try {
-            System.out.println("TRY");
             users = UsersMapper.getUser();
         } catch (PolygonException ex) {
-            System.out.println("CATCH");
-            Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
+            String msg = "fejl i getUser()";
+            throw new PolygonException(msg);
         }
         return users;
     }
-   
+
     //Upon pressing delete, chosen user's ID will be sent to the user mapper
-    private void removeUser(HttpServletRequest req) {
+    private void removeUser(HttpServletRequest req) throws PolygonException {
         int id = Integer.parseInt(req.getParameter("id"));
         try {
             UsersMapper.removeUser(id);
         } catch (PolygonException ex) {
-            Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
+            String msg = "UsersMapper.removeUser() fails";
+            throw new PolygonException(msg);
         }
     }
 
@@ -59,53 +61,70 @@ public class Users extends HttpServlet {
         if (username.length() > 0 && password.length() > 0 && password.equals(password2) && type.length() > 0) {
             User user = new User(username, password, email, type);
             UsersMapper.insertUser(user);
+        } else {
+            String msg = "Udfyld alle krævede felter";
+            throw new PolygonException(msg);
         }
     }
 
-    private void prepareUserList(HttpServletRequest req) {
+    private void prepareUserList(HttpServletRequest req) throws PolygonException {
         List<User> users = null;
         try {
             users = UsersMapper.getUser();
         } catch (PolygonException ex) {
-            Logger.getLogger(Users.class.getName()).log(Level.SEVERE, null, ex);
+            String msg = "kunne ikke hente users via getUser()";
+            throw new PolygonException(msg);
         }
         req.getSession().setAttribute("users", users);
-        
+
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String do_this = req.getParameter("do_this");
 
         switch (do_this) {
             case "delete":
-                removeUser(req);
-                prepareUserList(req);
-                resp.sendRedirect("userslist.jsp");
-                break;
-
-            case "add":
-                try {addUser(req);
+                try {
+                    removeUser(req);
                     prepareUserList(req);
                     resp.sendRedirect("userslist.jsp");
                 } catch (PolygonException ex) {
-                    
-                    resp.sendRedirect("usersadd.jsp");
+                    req.setAttribute("errorMsg", ex.getMessage());
+                    rd = req.getRequestDispatcher("userslist.jsp");
+                    rd.forward(req, resp);
+                }
+                break;
+
+            case "add":
+                try {
+                    addUser(req);
+                    prepareUserList(req);
+                    resp.sendRedirect("userslist.jsp");
+                } catch (PolygonException ex) {
+                    req.setAttribute("errorMsg", ex.getMessage());
+                    rd = req.getRequestDispatcher("usersadd.jsp");
+                    rd.forward(req, resp);
                 }
                 break;
         }
-
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(req.getSession().getAttribute("logged_in_type") != null 
-                && req.getSession().getAttribute("logged_in_type").equals("polygon")){
-            prepareUserList(req);
-            resp.sendRedirect("userslist.jsp");
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+        if (req.getSession().getAttribute("logged_in_type") != null
+                && req.getSession().getAttribute("logged_in_type").equals("polygon")) {
+            try {
+                prepareUserList(req);
+                resp.sendRedirect("userslist.jsp");
+            } catch (PolygonException ex) {
+                req.setAttribute("errorMsg", ex.getMessage());
+                resp.sendRedirect("userslist.jsp");
+            }
         } else {
             resp.sendRedirect("index.html");
-        
+
         }
     }
 

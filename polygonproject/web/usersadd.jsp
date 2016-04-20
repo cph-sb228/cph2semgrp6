@@ -8,7 +8,14 @@
 <% String ownerType = (String) request.getSession().getAttribute("logged_in_type"); %>
 <% if (ownerType==null || ownerType.equals("")){
     response.sendRedirect("Login");
-} %>
+}
+
+String msg = "";
+if(request.getAttribute("errorMsg")!=null){
+    msg = request.getAttribute("errorMsg").toString();
+}
+
+%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -21,6 +28,7 @@
         <a href="menu">Tilbage til menu</a>
         <a href="Logout">Log ud</a><br />
         <h1>User add</h1>
+        <p><%= msg %></p>
         <form action="adduser" method="POST">
             <p>User name</p>
             <input type="text" name="username" /></br>
