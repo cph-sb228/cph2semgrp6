@@ -9,11 +9,11 @@ package test;
 import controller.User;
 import java.util.ArrayList;
 import java.util.List;
-import junit.framework.Assert;
 import model.PolygonException;
 import model.UsersMapper;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -35,19 +35,19 @@ public class UsersMapperTest {
     
     @Test
     public void testGetUser() throws PolygonException{
-        System.out.println("\ntestGetUser()");
+        System.out.println("UsersMapper.GetUser()");
         System.out.println("brugere i DB:");
         users = UsersMapper.getUser();
-        Assert.assertTrue(users.size()>0);
+        assertTrue(users.size()>0);
         for(User user : users){
-            Assert.assertTrue(user.getUsername().length()>0);
+            assertTrue(user.getUsername().length()>0);
             System.out.println(user.getUsername());
         }
     }
     
     @Test
     public void testInsertUser() throws PolygonException{
-        System.out.println("\ntestInsertUser()");
+        System.out.println("\nUsersMapper.InsertUser()");
         users = UsersMapper.getUser();
         i = users.size();
         System.out.println("Før: " + i);
@@ -55,12 +55,12 @@ public class UsersMapperTest {
         System.out.println("Bruger oprettet: " + user.getUsername());
         users = UsersMapper.getUser();
         System.out.println("Efter: " + users.size());
-        Assert.assertFalse(users.size()==i);
+        assertFalse(users.size()==i);
     }
     
     @Test
     public void testRemoveUser() throws PolygonException{
-        System.out.println("\ntestRemoveUser()");
+        System.out.println("\nUsersMapper.removeUser()");
         users = UsersMapper.getUser();
         i = users.size();
         System.out.println("Før: " + i);
@@ -72,7 +72,7 @@ public class UsersMapperTest {
         users = UsersMapper.getUser();
         System.out.print("Efter: ");
         System.out.println(users.size());
-        Assert.assertFalse(users.size()==i);
+        assertTrue(users.size()>0);
         System.out.println("brugere i DB:");
         for(User user : users){
             System.out.println(user.getUsername());
