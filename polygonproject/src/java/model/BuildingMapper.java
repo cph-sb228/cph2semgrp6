@@ -7,13 +7,10 @@ package model;
 
 import controller.Building;
 import controller.DBAccess;
-import java.io.File;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collector;
 import javax.servlet.http.Part;
 
 /**
