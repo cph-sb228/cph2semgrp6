@@ -35,9 +35,11 @@
         <a href="reportadd.jsp">Add report</a>
         <table>
             <th>Building ID</th><th>Item name</th><th>Item Problem</th><th>Floor</th>
-            <th>Room Number</th><th>Importancy</th><th>Comments</th>
+            <th>Room Number</th><th>Importancy</th><th>Comments</th><th>Files</th>
                 <%
+List<String> filenames = new ArrayList();
                     for (int i = 0; i < reports.size(); i++) {
+                        filenames = reports.get(i).getFilenames();
                         out.print("<tr>");
                         out.print("<td>");
                         out.print(reports.get(i).getBuildingID());
@@ -59,6 +61,11 @@
                         out.print("</td>");
                         out.print("<td>");
                         out.print(reports.get(i).getComments());
+                        out.print("</td>");
+                        out.print("<td>");
+                        for(String s : filenames){
+                            out.print(s + " , ");
+                        }
                         out.print("</td>");
                         out.print("<td>");
                         

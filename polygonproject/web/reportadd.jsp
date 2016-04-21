@@ -47,8 +47,8 @@ if(request.getAttribute("errorMsg")!=null){
                 <option value="<%= b.getId() %>" ><%= b.getOwner() %></option>
             <% } %>
             </select>
-
             </br>
+
             <p>Itemname<br />
               <input type="text" name="itemname" /></p>
             <p>Item Problem<br />

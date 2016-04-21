@@ -5,6 +5,8 @@
  */
 package controller;
 
+import java.util.List;
+
 /**
  *
  * @author terfy
@@ -19,6 +21,7 @@ public class Report {
     private String roomnumber;
     private String importancy;
     private String comments;
+    private List<String> filenames;
 
     public Report(String itemname, String itemproblem, String floor, String roomnumber, String importancy, String comments) {
         this.itemname = itemname;
@@ -27,6 +30,14 @@ public class Report {
         this.roomnumber = roomnumber;
         this.importancy = importancy;
         this.comments = comments;
+    }
+
+    public List<String> getFilenames() {
+        return filenames;
+    }
+
+    public void setFilenames(List<String> filenames) {
+        this.filenames = filenames;
     }
 
     public int getId() {

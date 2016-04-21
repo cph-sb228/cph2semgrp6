@@ -10,6 +10,7 @@ import controller.DBAccess;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javax.servlet.http.Part;
 
@@ -31,7 +32,9 @@ public class ReportMapper {
             try (PreparedStatement ps = DBAccess.prepare(sql)){
                 System.out.println(report.getId());
                 ps.setInt(1, report.getId());
-                ps.setString(2, file.getName());
+                String filename = file.getHeader("Content-Disposition");
+                filename = filename.replaceFirst("(?i)^.*filename=\"([^\"]+)\".*$", "$1");
+                ps.setString(2, filename);
                 ps.setBlob(3, file.getInputStream());
                 ps.execute();
             } catch (SQLException | ClassNotFoundException | IOException ex) {
@@ -72,10 +75,35 @@ public class ReportMapper {
         return true;
     }
 
+    private static List<String> getFilenameList(int s) throws PolygonException{
+        
+        List<String> filename = new ArrayList<>();
+        String sql = "SELECT * FROM `files` WHERE `reportId` = " + s + ";";
+
+        try {
+            DBAccess DB = DBAccess.getInstance();
+            Statement st = DB.getCon().createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            String name = "";
+            while (rs.next()) {
+                name = rs.getString("filename");
+                filename.add(name);
+            }
+            
+            st.close();
+            return filename;
+        } catch (SQLException | ClassNotFoundException ex) {
+            String msg = "kunne ikke hente filename fra files";
+            throw new PolygonException(msg);
+        }
+    }
+    
     // returns a full list of all the reports.
     public static List<Report> getReports() throws PolygonException {
 
         List<Report> reports = new ArrayList();
+        List<String> filenames = new ArrayList();
+        
         String sql = "SELECT * FROM `reports`;";
 
         try {
@@ -83,6 +111,7 @@ public class ReportMapper {
             Statement st = DB.getCon().createStatement();
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
+                filenames = getFilenameList(rs.getInt("id"));
                 int buildingID = rs.getInt("buildingID");
                 String itemname = rs.getString("itemname");
                 String itemproblem = rs.getString("itemproblem");
@@ -93,6 +122,7 @@ public class ReportMapper {
                 Report report = new Report(itemname, itemproblem, floor, roomnumber, importancy, comments);
                 report.setBuildingID(buildingID);
                 report.setId(rs.getInt("id"));
+                report.setFilenames(filenames);
                 reports.add(report);
             }
             

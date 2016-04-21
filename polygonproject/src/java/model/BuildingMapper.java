@@ -30,7 +30,7 @@ public class BuildingMapper {
                 file = f;
             }
         }
-        String sql = "INSERT INTO `buildings` (`owner`,`address`,`housenr`,`zipcode`,`city`,`floor`,`km2`,`conditions`,`file`) VALUES (?,?,?,?,?,?,?,?,?);";
+        String sql = "INSERT INTO `buildings` (`owner`,`address`,`housenr`,`zipcode`,`city`,`floor`,`km2`,`conditions`,`file`,`filename`) VALUES (?,?,?,?,?,?,?,?,?,?);";
 
         try (PreparedStatement ps = DBAccess.prepare(sql)) {
 
@@ -43,6 +43,7 @@ public class BuildingMapper {
             ps.setInt(7, building.getKm2());
             ps.setString(8, building.getConditions());
             ps.setBlob(9, file.getInputStream());
+            ps.setString(10, building.getBlobname());
             ps.execute();
         } catch (SQLException | IOException | ClassNotFoundException ex) {
             String msg = "insert building fejlede";
@@ -51,6 +52,7 @@ public class BuildingMapper {
         return true;
     }
 
+    
     //SQL select request, which returns a list of buildings depending on user type
     public static List<Building> getBuildings(String ownerName, String ownerType) throws PolygonException {
 
@@ -77,10 +79,12 @@ public class BuildingMapper {
                 int floor = rs.getInt("floor");
                 int km2 = rs.getInt("km2");
                 String conditions = rs.getString("conditions");
+                String filename = rs.getString("filename");
                 Blob blobName = rs.getBlob("file");
                 //Part file = blobName.
                 Building building = new Building(owner, address, housenr, zipcode, city, floor, km2, conditions);
                 building.setId(rs.getInt("id"));
+                building.setBlobname(filename);
                 buildings.add(building);
             }
 
