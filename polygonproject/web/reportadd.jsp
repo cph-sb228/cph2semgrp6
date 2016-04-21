@@ -41,10 +41,10 @@ if(request.getAttribute("errorMsg")!=null){
             <p>Vælg fil(er)</p>
             <input type="file" name="file" multiple="true" /></br>
 
-            <p>Choose building and condition</p>
+            <p>Choose building</p>
             <select name="buildingID">
             <% for(Building b : buildings){ %>
-                <option value="<%= b.getId() %>" ><%= b.getOwner() %></option>
+                <option value="<%= b.getId() %>" ><%= b.getId()%></option>
             <% } %>
             </select>
             </br>
