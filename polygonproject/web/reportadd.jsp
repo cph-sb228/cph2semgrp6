@@ -4,10 +4,10 @@
     Author     : terfy
 --%>
 
-<%@page import="controller.Report"%>
+<%@page import="domain.Report"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="controller.Building"%>
+<%@page import="domain.Building"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% String ownerType = (String) request.getSession().getAttribute("logged_in_type"); %>
 <% if (ownerType==null || ownerType.equals("")){

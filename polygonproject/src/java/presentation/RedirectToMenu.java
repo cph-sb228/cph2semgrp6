@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package presentation;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author terfy
  */
-public class Logout extends HttpServlet {
+public class RedirectToMenu extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,11 +29,21 @@ public class Logout extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.getSession().getAttribute("logged_in_type")!=null){
-            request.getSession().setAttribute("logged_in_type", "");
-            request.getSession().setAttribute("logged_in_name", "");
+        
+        String type = (String) request.getSession().getAttribute("logged_in_type");
+        System.out.println(type);
+        switch (type){
+            case "polygon":
+                response.sendRedirect("menu_polygon.html");
+                break;
+            case "customer":
+                response.sendRedirect("menu_customers.html");
+                break;
+            default:
+                response.sendRedirect("Login");
+                break;
         }
-        response.sendRedirect("menu");
+                   
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

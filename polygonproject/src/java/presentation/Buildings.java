@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package presentation;
 
-import model.Building;
+import domain.Building;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import dataaccess.BuildingMapper;
-import model.PolygonException;
+import domain.PolygonException;
 
 /**
  *

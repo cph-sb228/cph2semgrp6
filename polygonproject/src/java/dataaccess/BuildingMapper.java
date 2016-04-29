@@ -11,8 +11,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.Part;
-import model.Building;
-import model.PolygonException;
+import domain.Building;
+import domain.PolygonException;
 
 /**
  *

@@ -6,10 +6,10 @@ package test;
  * and open the template in the editor.
  */
 
-import model.User;
+import domain.User;
 import java.util.ArrayList;
 import java.util.List;
-import model.PolygonException;
+import domain.PolygonException;
 import dataaccess.UsersMapper;
 import org.junit.After;
 import org.junit.AfterClass;

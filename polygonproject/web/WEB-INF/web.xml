@@ -1,116 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
-    
     <!-- LOGOUT -->
     <servlet>
         <servlet-name>Logout</servlet-name>
-        <servlet-class>view.Logout</servlet-class>
+        <servlet-class>presentation.Logout</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Logout</servlet-name>
         <url-pattern>/Logout</url-pattern>
     </servlet-mapping>
-    
     <!-- REDIRECT -->
     <servlet>
         <servlet-name>RedirectToMenu</servlet-name>
-        <servlet-class>view.RedirectToMenu</servlet-class>
+        <servlet-class>presentation.RedirectToMenu</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>RedirectToMenu</servlet-name>
         <url-pattern>/menu</url-pattern>
     </servlet-mapping>
-    
     <!-- ADD BUILDINGS -->
     <servlet>
         <servlet-name>AddBuilding</servlet-name>
-        <servlet-class>view.Buildings</servlet-class>
+        <servlet-class>presentation.Buildings</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AddBuilding</servlet-name>
         <url-pattern>/addbuilding</url-pattern>
     </servlet-mapping>
-    
     <!-- DELETE BUILDINGS -->
     <servlet>
         <servlet-name>DeleteBuilding</servlet-name>
-        <servlet-class>view.Buildings</servlet-class>
+        <servlet-class>presentation.Buildings</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DeleteBuilding</servlet-name>
         <url-pattern>/deletebuilding</url-pattern>
     </servlet-mapping>
-    
     <!-- LIST BUILDINGS -->
     <servlet>
         <servlet-name>ListBuilding</servlet-name>
-        <servlet-class>view.Buildings</servlet-class>
+        <servlet-class>presentation.Buildings</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ListBuilding</servlet-name>
         <url-pattern>/listbuilding</url-pattern>
     </servlet-mapping>
-    
     <!-- LIST USERS -->
     <servlet>
         <servlet-name>ListUsers</servlet-name>
-        <servlet-class>view.Users</servlet-class>
+        <servlet-class>presentation.Users</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ListUsers</servlet-name>
         <url-pattern>/listusers</url-pattern>
     </servlet-mapping>
-    
     <!-- ADD USER -->
     <servlet>
         <servlet-name>AddUser</servlet-name>
-        <servlet-class>view.Users</servlet-class>
+        <servlet-class>presentation.Users</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AddUser</servlet-name>
         <url-pattern>/adduser</url-pattern>
     </servlet-mapping>
-    
     <!-- DELETE USER -->
     <servlet>
         <servlet-name>DeleteUser</servlet-name>
-        <servlet-class>view.Users</servlet-class>
+        <servlet-class>presentation.Users</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DeleteUser</servlet-name>
         <url-pattern>/deleteuser</url-pattern>
     </servlet-mapping>
-    
     <!-- LIST REPORTS -->
     <servlet>
         <servlet-name>ListReports</servlet-name>
-        <servlet-class>view.Reports</servlet-class>
+        <servlet-class>presentation.Reports</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ListReports</servlet-name>
         <url-pattern>/listreports</url-pattern>
     </servlet-mapping>
-    
     <!-- ADD REPORTS -->
     <servlet>
         <servlet-name>AddReport</servlet-name>
-        <servlet-class>view.Reports</servlet-class>
+        <servlet-class>presentation.Reports</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AddReport</servlet-name>
         <url-pattern>/addreport</url-pattern>
     </servlet-mapping>
-    
     <!-- DELETE REPORTS -->
     <servlet>
         <servlet-name>DeleteReport</servlet-name>
-        <servlet-class>view.Reports</servlet-class>
+        <servlet-class>presentation.Reports</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DeleteReport</servlet-name>
