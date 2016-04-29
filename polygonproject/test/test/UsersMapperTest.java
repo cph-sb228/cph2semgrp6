@@ -72,7 +72,7 @@ public class UsersMapperTest {
         users = UsersMapper.getUser();
         System.out.print("Efter: ");
         System.out.println(users.size());
-        assertTrue(users.size()>0);
+        assertFalse(users.size()== i);
         System.out.println("brugere i DB:");
         for(User user : users){
             System.out.println(user.getUsername());
@@ -101,7 +101,7 @@ public class UsersMapperTest {
         i = 0;
     }
     
-    @After
+    @After  
     public void tearDown() {
         
     }
