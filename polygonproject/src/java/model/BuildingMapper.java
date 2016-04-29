@@ -22,15 +22,19 @@ public class BuildingMapper {
     //SQL request to add a building
     public static boolean insertBuilding(Building building, List<Part> fileparts) throws PolygonException {
         Part file = null;
-        if(!fileparts.isEmpty()){
-            for(Part f : fileparts){
+        if (!fileparts.isEmpty()) {
+            for (Part f : fileparts) {
                 file = f;
             }
         }
-        String sql = "INSERT INTO `buildings` (`owner`,`address`,`housenr`,`zipcode`,`city`,`floor`,`km2`,`conditions`,`file`,`filename`) VALUES (?,?,?,?,?,?,?,?,?,?);";
+        String sql;
+        if (file != null) {
+            sql = "INSERT INTO `buildings` (`owner`,`address`,`housenr`,`zipcode`,`city`,`floor`,`km2`,`conditions`,`file`,`filename`) VALUES (?,?,?,?,?,?,?,?,?,?);";
+        } else {
+            sql = "INSERT INTO `buildings` (`owner`,`address`,`housenr`,`zipcode`,`city`,`floor`,`km2`,`conditions`) VALUES (?,?,?,?,?,?,?,?);";
+        }
 
         try (PreparedStatement ps = DBAccess.prepare(sql)) {
-
             ps.setString(1, building.getOwner());
             ps.setString(2, building.getAddress());
             ps.setInt(3, building.getHousenr());
@@ -39,8 +43,10 @@ public class BuildingMapper {
             ps.setInt(6, building.getFloor());
             ps.setInt(7, building.getKm2());
             ps.setString(8, building.getConditions());
-            ps.setBlob(9, file.getInputStream());
-            ps.setString(10, building.getBlobname());
+            if (file != null) {
+                ps.setBlob(9, file.getInputStream());
+                ps.setString(10, building.getBlobname());
+            }
             ps.execute();
         } catch (SQLException | IOException | ClassNotFoundException ex) {
             String msg = "insert building fejlede";
@@ -49,12 +55,11 @@ public class BuildingMapper {
         return true;
     }
 
-    
     //SQL select request, which returns a list of buildings depending on user type
     public static List<Building> getBuildings(String ownerName, String ownerType) throws PolygonException {
 
         List<Building> buildings = new ArrayList();
-            String sql = "";
+        String sql = "";
 
         try {
 
@@ -97,7 +102,7 @@ public class BuildingMapper {
     public static boolean removeBuilding(int id) throws PolygonException {
         String sql = "DELETE FROM buildings WHERE id = ?;";
 
-        try (PreparedStatement ps = DBAccess.prepare(sql)){
+        try (PreparedStatement ps = DBAccess.prepare(sql)) {
             ps.setInt(1, id);
             ps.execute();
         } catch (SQLException | ClassNotFoundException ex) {

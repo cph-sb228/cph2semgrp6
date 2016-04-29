@@ -29,8 +29,8 @@ import model.PolygonException;
 @MultipartConfig
 public class Buildings extends HttpServlet {
 
-        RequestDispatcher rd = null;
-    
+    RequestDispatcher rd = null;
+
     private void removeBuilding(HttpServletRequest req) throws PolygonException {
         int id = Integer.parseInt(req.getParameter("id"));
         try {
@@ -40,9 +40,9 @@ public class Buildings extends HttpServlet {
             throw new PolygonException(msg);
         }
     }
-    
-    private void addBuildingFloorplan(File file, String path, String filename){
-        
+
+    private void addBuildingFloorplan(File file, String path, String filename) {
+
     }
 
     private void addBuilding(HttpServletRequest req) throws PolygonException {
@@ -64,7 +64,7 @@ public class Buildings extends HttpServlet {
             String msg = "fejl i filepart";
             throw new PolygonException(msg);
         }
-        
+
         if (address.length() > 0
                 && housenr.length() > 0
                 && zipcode.length() > 0
@@ -78,23 +78,25 @@ public class Buildings extends HttpServlet {
                 throw new PolygonException(msg);
             }
             Building building = new Building(owner, address, Integer.valueOf(housenr), Integer.valueOf(zipcode), city, Integer.valueOf(floor), Integer.valueOf(km2), conditions);
-            Part file = fileParts.get(0);
-            
-            String filename = file.getHeader("Content-Disposition");
-            filename = filename.replaceFirst("(?i)^.*filename=\"([^\"]+)\".*$", "$1");
-            building.setBlobname(filename);
+            String filename = "";
 
+            if (fileParts.size() > 0) {
+                Part file = fileParts.get(0);
+                filename = file.getHeader("Content-Disposition");
+                filename = filename.replaceFirst("(?i)^.*filename=\"([^\"]+)\".*$", "$1");
+                building.setBlobname(filename);
+            }
             try {
                 BuildingMapper.insertBuilding(building, fileParts);
                 System.out.println("insertbuilding try virker");
             } catch (PolygonException ex) {
                 throw new PolygonException(ex.getMessage());
             }
-        }else{ 
+        } else {
             String msg = "husk at udfylde alle krævede felter";
             throw new PolygonException(msg);
         }
-        
+
     }
 
     private void prepareBuildingList(HttpServletRequest req) throws PolygonException {
@@ -113,9 +115,9 @@ public class Buildings extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String do_this = req.getParameter("do_this");
-        System.out.println("--------"+do_this);
+        System.out.println("--------" + do_this);
         switch (do_this) {
-            
+
             case "delete":
                 try {
                     removeBuilding(req);
