@@ -5,7 +5,7 @@
  */
 package view;
 
-import controller.User;
+import model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;

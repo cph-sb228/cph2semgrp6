@@ -4,7 +4,7 @@
     Author     : terfy
 --%>
 
-<%@page import="controller.Report"%>
+<%@page import="model.Report"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

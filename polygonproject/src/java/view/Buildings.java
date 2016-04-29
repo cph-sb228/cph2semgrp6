@@ -5,7 +5,7 @@
  */
 package view;
 
-import controller.Building;
+import model.Building;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import model.BuildingMapper;
+import dataaccess.BuildingMapper;
 import model.PolygonException;
 
 /**

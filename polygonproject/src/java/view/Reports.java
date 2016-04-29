@@ -5,8 +5,8 @@
  */
 package view;
 
-import controller.Building;
-import controller.Report;
+import model.Building;
+import model.Report;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,9 +22,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import model.BuildingMapper;
+import dataaccess.BuildingMapper;
 import model.PolygonException;
-import model.ReportMapper;
+import dataaccess.ReportMapper;
 
 /**
  *

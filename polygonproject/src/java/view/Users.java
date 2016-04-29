@@ -5,7 +5,7 @@
  */
 package view;
 
-import controller.User;
+import model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.PolygonException;
-import model.UsersMapper;
+import dataaccess.UsersMapper;
 
 /**
  *

@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package dataaccess;
 
-import controller.Report;
-import controller.DBAccess;
+import dataaccess.DBAccess;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.Part;
+import model.PolygonException;
+import model.Report;
 
 /**
  *

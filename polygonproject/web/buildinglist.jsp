@@ -6,7 +6,7 @@
 
 <%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="controller.Building"%>
+<%@page import="model.Building"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% List<Building> buildings = ((ArrayList<Building>) request.getSession().getAttribute("buildings")); %>
 <% String ownerType = (String) request.getSession().getAttribute("logged_in_type"); %>
