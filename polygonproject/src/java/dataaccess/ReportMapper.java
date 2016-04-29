@@ -1,11 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dataaccess;
 
-import dataaccess.DBAccess;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,7 +13,6 @@ import domain.Report;
  * @author terfy
  */
 public class ReportMapper {
-    
     
     public static boolean insertBlob(Report report, List<Part> fileparts) throws PolygonException {
         if(fileparts.isEmpty()) return true;

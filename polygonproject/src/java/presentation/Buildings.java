@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package presentation;
 
 import domain.Building;
@@ -40,11 +35,7 @@ public class Buildings extends HttpServlet {
             throw new PolygonException(msg);
         }
     }
-
-    private void addBuildingFloorplan(File file, String path, String filename) {
-
-    }
-
+    
     private void addBuilding(HttpServletRequest req) throws PolygonException {
         String owner = (String) req.getSession().getAttribute("logged_in_name");
         String address = (String) req.getParameter("address");

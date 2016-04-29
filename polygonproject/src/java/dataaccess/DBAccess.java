@@ -1,13 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dataaccess;
 
 import java.sql.*;
-
-
 
 /**
  *
@@ -28,17 +21,13 @@ public class DBAccess {
     }
     
     public static DBAccess getInstance() throws SQLException, ClassNotFoundException {
-        if (instance == null) {
-            instance = new DBAccess();
-            
-        }
+        if (instance == null) instance = new DBAccess();
         return instance;
     }
 
     public Connection getCon() {
         return this.con;
     }
-     
 
     public static PreparedStatement prepare(String SQLString) throws ClassNotFoundException {
         try {
